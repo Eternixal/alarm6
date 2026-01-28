@@ -33,7 +33,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; justify-content: center; background-image: radial-gradient(circle at 50% 10%, var(--glow) 0%, #090b0e 100%); transition: 0.5s ease; }
 
-        /* LAYAR AWAL */
         #welcome-screen { 
             position: fixed; inset: 0; background: var(--bg); z-index: 5000; 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -49,24 +48,17 @@
         }
 
         .center-axis {
-            font-size: 3.5rem;
-            z-index: 10;
+            font-size: 3.5rem; z-index: 10;
             filter: drop-shadow(0 0 20px var(--accent));
             animation: spin-hourglass 4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
         }
 
-        @keyframes spin-hourglass {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes spin-hourglass { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .mode-card {
-            position: absolute;
-            width: 90px; height: 90px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: absolute; width: 90px; height: 90px;
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center;
             cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             backdrop-filter: blur(8px);
         }
@@ -82,7 +74,6 @@
         .mode-card.selected.card-3 { transform: translate(0, 115px) scale(1.1); }
         .mode-card.selected.card-4 { transform: translate(-115px, 0) scale(1.1); }
 
-        /* TAMPILAN UTAMA */
         .app-shell { width: 100%; max-width: 360px; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; }
         .timer-panel { width: 100%; background: var(--card-bg); border: 1px solid var(--border); border-radius: 40px; padding: 30px 10px; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(20px); }
         .digit { font-family: 'JetBrains Mono', monospace; font-size: 2.8rem; text-shadow: 0 0 15px var(--glow); }
@@ -94,15 +85,16 @@
             cursor: pointer; transition: 0.2s;
         }
 
-        .btn-main { padding: 20px 45px; border-radius: 100px; border: none; background: var(--accent); color: #000; font-weight: 800; cursor: pointer; box-shadow: 0 10px 30px var(--glow); width: 100%; transition: 0.3s; }
+        .btn-main { padding: 20px 25px; border-radius: 100px; border: none; background: var(--accent); color: #000; font-weight: 800; cursor: pointer; box-shadow: 0 10px 30px var(--glow); transition: 0.3s; flex: 2; font-size: 0.75rem; letter-spacing: 0.5px; }
 
         #finish-notice { position: fixed; inset: 0; background: var(--bg); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; text-align: center; }
         
+        .welcome-actions { display: flex; gap: 10px; width: 300px; margin-top: 10px; align-items: center; }
+        
         #install-btn { 
-            display:none; margin-top: 15px; background:rgba(255,255,255,0.05); border:1px solid var(--border); 
-            color:var(--text-main); font-size:0.65rem; padding:12px 20px; border-radius:50px; font-weight:800; 
-            cursor:pointer; width: 220px; letter-spacing: 1px; align-items: center; justify-content: center; 
-            gap: 8px; transition: 0.3s; 
+            display:none; background:rgba(255,255,255,0.05); border:1px solid var(--border); 
+            color:var(--text-main); padding:20px; border-radius:100px; font-weight:800; 
+            cursor:pointer; flex: 1; align-items: center; justify-content: center; transition: 0.3s; 
         }
     </style>
 </head>
@@ -116,30 +108,18 @@
         
         <div class="orbit-container">
             <div class="center-axis">⌛</div>
-            <div class="mode-card card-1" id="card-work" onclick="selectInitialMode('work')">
-                <span style="font-size:1.6rem">💼</span>
-                <span style="font-size:0.55rem; font-weight:800; margin-top:5px">KERJA</span>
-            </div>
-            <div class="mode-card card-2" id="card-study" onclick="selectInitialMode('study')">
-                <span style="font-size:1.6rem">📖</span>
-                <span style="font-size:0.55rem; font-weight:800; margin-top:5px">BELAJAR</span>
-            </div>
-            <div class="mode-card card-3" id="card-create" onclick="selectInitialMode('create')">
-                <span style="font-size:1.6rem">🎨</span>
-                <span style="font-size:0.55rem; font-weight:800; margin-top:5px">KARYA</span>
-            </div>
-            <div class="mode-card card-4" id="card-read" onclick="selectInitialMode('read')">
-                <span style="font-size:1.6rem">📑</span>
-                <span style="font-size:0.55rem; font-weight:800; margin-top:5px">BACA</span>
-            </div>
+            <div class="mode-card card-1" id="card-work" onclick="selectInitialMode('work')"><span style="font-size:1.6rem">💼</span><span style="font-size:0.55rem; font-weight:800; margin-top:5px">KERJA</span></div>
+            <div class="mode-card card-2" id="card-study" onclick="selectInitialMode('study')"><span style="font-size:1.6rem">📖</span><span style="font-size:0.55rem; font-weight:800; margin-top:5px">BELAJAR</span></div>
+            <div class="mode-card card-3" id="card-create" onclick="selectInitialMode('create')"><span style="font-size:1.6rem">🎨</span><span style="font-size:0.55rem; font-weight:800; margin-top:5px">KARYA</span></div>
+            <div class="mode-card card-4" id="card-read" onclick="selectInitialMode('read')"><span style="font-size:1.6rem">📑</span><span style="font-size:0.55rem; font-weight:800; margin-top:5px">BACA</span></div>
         </div>
 
-        <button class="btn-main" id="welcome-go" style="opacity: 0.1; pointer-events: none; width: 220px;" onclick="enterApp()">MULAI SEKARANG</button>
-        
-        <button id="install-btn">
-            <span class="material-symbols-outlined" style="font-size: 18px; color: var(--accent);">download</span>
-            DOWNLOAD APP
-        </button>
+        <div class="welcome-actions">
+            <button class="btn-main" id="welcome-go" style="opacity: 0.1; pointer-events: none;" onclick="enterApp()">MULAI SEKARANG</button>
+            <button id="install-btn">
+                <span class="material-symbols-outlined" style="font-size: 22px; color: var(--accent);">download</span>
+            </button>
+        </div>
     </div>
 
     <div class="app-shell">
@@ -175,50 +155,33 @@
 
         <div class="preset-grid" id="preset-grid"></div>
 
-        <button class="btn-main" id="action-btn" onclick="handleAction()" style="margin-top:40px;">MULAI FOKUS</button>
-        <div id="cancel-zone" style="display:none; margin-top:20px;">
-            <button onclick="cancelSession()" style="background:none; border:none; color:var(--text-muted); font-size:0.65rem; cursor:pointer; text-decoration:underline;">Batalkan Waktu</button>
-        </div>
+        <button class="btn-main" id="action-btn" onclick="handleAction()" style="margin-top:40px; width:100%; flex:none;">MULAI FOKUS</button>
+        <div id="cancel-zone" style="display:none; margin-top:20px;"><button onclick="cancelSession()" style="background:none; border:none; color:var(--text-muted); font-size:0.65rem; cursor:pointer; text-decoration:underline;">Batalkan Waktu</button></div>
     </div>
 
     <div id="finish-notice">
         <div style="font-size: 70px;">🎉</div>
         <h2 style="font-weight: 800; margin-top: 20px;">WAKTU HABIS!</h2>
         <p id="last-task-display" style="color: var(--accent); margin: 20px 0; font-weight: 700; font-size:1.1rem;"></p>
-        <button class="btn-main" onclick="stayInTheme()" style="width:200px">OKE, SIAP</button>
+        <button class="btn-main" onclick="stayInTheme()" style="width:200px; flex:none;">OKE, SIAP</button>
     </div>
 
     <div style="position:absolute; top:-999px"><div id="lofi-player"></div><div id="reward-player"></div></div>
 
     <script>
-        // SERVICE WORKER
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js'); });
-        }
+        if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js'); }); }
 
-        // INSTALL LOGIC
-        let deferredPrompt;
-        const installBtn = document.getElementById('install-btn');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.style.display = 'flex';
-        });
+        let deferredPrompt; const installBtn = document.getElementById('install-btn');
+        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; installBtn.style.display = 'flex'; });
 
         installBtn.addEventListener('click', async () => {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
+            if (!deferredPrompt) return; deferredPrompt.prompt();
             const { outcome } = await deferredPrompt.userChoice;
-            deferredPrompt = null;
-            installBtn.style.display = 'none';
+            deferredPrompt = null; installBtn.style.display = 'none';
         });
 
-        window.addEventListener('appinstalled', () => {
-            installBtn.style.display = 'none';
-        });
+        window.addEventListener('appinstalled', () => { installBtn.style.display = 'none'; });
 
-        // APP LOGIC
         const focusModes = {
             work: { video: "lkkGlVWvkLk", hints: ["Beresin email...", "Tulis laporan...", "Cek data..."], presets: ["00:05:00", "00:15:00", "00:25:00", "00:45:00", "01:00:00", "01:30:00"] },
             study: { video: "Z8ANihFXlgU", hints: ["Baca materi...", "Latihan soal...", "Review bab..."], presets: ["00:10:00", "00:20:00", "00:30:00", "00:45:00", "01:00:00", "01:15:00"] },
@@ -226,8 +189,7 @@
             create: { video: "dUqdlL_k6x8", hints: ["Gambar sketsa...", "Edit video...", "Tulis ide..."], presets: ["00:30:00", "01:00:00", "01:30:00", "02:00:00", "03:00:00", "04:00:00"] }
         };
 
-        let h=0, m=0, s=0, totalSec=0, isRunning=false, isPaused=false, currentMode="work", hintIdx=0, hintInterval, timerInterval;
-        let lofiPlayer, rewardPlayer;
+        let h=0, m=0, s=0, totalSec=0, isRunning=false, isPaused=false, currentMode="work", hintIdx=0, hintInterval, timerInterval, lofiPlayer, rewardPlayer;
 
         function adj(u, d) {
             if(isRunning) return;
@@ -244,39 +206,28 @@
         }
 
         function selectInitialMode(mode) {
-            currentMode = mode;
-            document.body.className = `mood-${mode}`;
+            currentMode = mode; document.body.className = `mood-${mode}`;
             document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
             document.getElementById(`card-${mode}`).classList.add('selected');
             document.getElementById('welcome-go').style.opacity = "1";
             document.getElementById('welcome-go').style.pointerEvents = "auto";
             
-            const grid = document.getElementById('preset-grid');
-            grid.innerHTML = "";
+            const grid = document.getElementById('preset-grid'); grid.innerHTML = "";
             focusModes[mode].presets.forEach(p => {
-                const btn = document.createElement('button');
-                btn.className = 'btn-preset';
-                btn.innerText = p;
-                btn.onclick = () => { if(!isRunning) { const t=p.split(':'); h=parseInt(t[0]); m=parseInt(t[1]); s=parseInt(t[2]); updateDisplay(); }};
+                const btn = document.createElement('button'); btn.className = 'btn-preset';
+                btn.innerText = p; btn.onclick = () => { if(!isRunning) { const t=p.split(':'); h=parseInt(t[0]); m=parseInt(t[1]); s=parseInt(t[2]); updateDisplay(); }};
                 grid.appendChild(btn);
             });
 
-            const input = document.getElementById('session-intent');
-            if(hintInterval) clearInterval(hintInterval);
-            hintInterval = setInterval(() => {
-                if(!isRunning && !input.value) {
-                    input.placeholder = focusModes[currentMode].hints[hintIdx];
-                    hintIdx = (hintIdx + 1) % focusModes[currentMode].hints.length;
-                }
-            }, 3000);
+            const input = document.getElementById('session-intent'); if(hintInterval) clearInterval(hintInterval);
+            hintInterval = setInterval(() => { if(!isRunning && !input.value) { input.placeholder = focusModes[currentMode].hints[hintIdx]; hintIdx = (hintIdx + 1) % focusModes[currentMode].hints.length; } }, 3000);
         }
 
         function handleAction() {
             if(!isRunning) {
                 const input = document.getElementById('session-intent');
                 if(!input.value.trim() || (h+m+s === 0)) return;
-                totalSec = (h*3600)+(m*60)+s;
-                startTimer();
+                totalSec = (h*3600)+(m*60)+s; startTimer();
             } else { if(!isPaused) pauseTimer(); else resumeTimer(); }
         }
 
@@ -290,53 +241,24 @@
             runCountdown();
         }
 
-        function pauseTimer() {
-            isPaused = true; clearInterval(timerInterval);
-            document.getElementById('action-btn').innerText = "LANJUTKAN LAGI";
-            document.getElementById('status-label').innerText = "BERHENTI";
-            if(lofiPlayer) lofiPlayer.pauseVideo();
-        }
-
-        function resumeTimer() {
-            isPaused = false;
-            document.getElementById('action-btn').innerText = "JEDA SEBENTAR";
-            document.getElementById('status-label').innerText = "LAGI FOKUS...";
-            if(lofiPlayer) lofiPlayer.playVideo();
-            runCountdown();
-        }
-
-        function runCountdown() {
-            timerInterval = setInterval(() => {
-                if(totalSec > 0) {
-                    totalSec--;
-                    h = Math.floor(totalSec/3600); m = Math.floor((totalSec%3600)/60); s = totalSec%60;
-                    updateDisplay();
-                } else { finishSession(); }
-            }, 1000);
-        }
+        function pauseTimer() { isPaused = true; clearInterval(timerInterval); document.getElementById('action-btn').innerText = "LANJUTKAN LAGI"; document.getElementById('status-label').innerText = "BERHENTI"; if(lofiPlayer) lofiPlayer.pauseVideo(); }
+        function resumeTimer() { isPaused = false; document.getElementById('action-btn').innerText = "JEDA SEBENTAR"; document.getElementById('status-label').innerText = "LAGI FOKUS..."; if(lofiPlayer) lofiPlayer.playVideo(); runCountdown(); }
+        function runCountdown() { timerInterval = setInterval(() => { if(totalSec > 0) { totalSec--; h = Math.floor(totalSec/3600); m = Math.floor((totalSec%3600)/60); s = totalSec%60; updateDisplay(); } else { finishSession(); } }, 1000); }
 
         function resetUI() {
             isRunning = false; h=0; m=0; s=0; updateDisplay();
-            document.getElementById('action-btn').innerText = "MULAI FOKUS";
-            document.getElementById('status-label').innerText = "SIAP";
-            document.getElementById('cancel-zone').style.display = 'none';
-            document.querySelectorAll('.adjust-btn').forEach(b => b.style.visibility = 'visible');
-            document.getElementById('session-intent').value = "";
-            if(lofiPlayer) lofiPlayer.stopVideo();
+            document.getElementById('action-btn').innerText = "MULAI FOKUS"; document.getElementById('status-label').innerText = "SIAP";
+            document.getElementById('cancel-zone').style.display = 'none'; document.querySelectorAll('.adjust-btn').forEach(b => b.style.visibility = 'visible');
+            document.getElementById('session-intent').value = ""; if(lofiPlayer) lofiPlayer.stopVideo();
         }
 
         function cancelSession() { clearInterval(timerInterval); resetUI(); }
-
         function finishSession() {
-            clearInterval(timerInterval);
-            document.getElementById('last-task-display').innerText = document.getElementById('session-intent').value;
-            const item = document.createElement('div');
-            item.style.fontSize = "0.7rem"; item.style.opacity = "0.4"; item.style.textDecoration = "line-through";
+            clearInterval(timerInterval); document.getElementById('last-task-display').innerText = document.getElementById('session-intent').value;
+            const item = document.createElement('div'); item.style.fontSize = "0.7rem"; item.style.opacity = "0.4"; item.style.textDecoration = "line-through";
             item.innerText = "✓ " + document.getElementById('session-intent').value;
-            document.getElementById('task-stack').appendChild(item);
-            document.getElementById('finish-notice').style.display = 'flex';
-            resetUI();
-            if(rewardPlayer) { rewardPlayer.unMute(); rewardPlayer.playVideo(); }
+            document.getElementById('task-stack').appendChild(item); document.getElementById('finish-notice').style.display = 'flex';
+            resetUI(); if(rewardPlayer) { rewardPlayer.unMute(); rewardPlayer.playVideo(); }
         }
 
         function enterApp() { document.getElementById('welcome-screen').classList.add('hide'); }
@@ -344,8 +266,7 @@
         function stayInTheme() { document.getElementById('finish-notice').style.display = 'none'; if(rewardPlayer) rewardPlayer.stopVideo(); }
 
         var tag = document.createElement('script'); tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        var firstScriptTag = document.getElementsByTagName('script')[0]; firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         function onYouTubeIframeAPIReady() {
             lofiPlayer = new YT.Player('lofi-player', { height: '1', width: '1', videoId: 'lkkGlVWvkLk' });
             rewardPlayer = new YT.Player('reward-player', { height: '1', width: '1', videoId: 'do5EbohsUUk' });
