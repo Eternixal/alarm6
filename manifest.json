@@ -1,16 +1,15 @@
 {
   "name": "Nerdix Sentinel",
-  "short_name": "Nerdix",
-  "description": "Premium Focus & Productivity Timer",
-  "start_url": "/",
+  "short_name": "Sentinel",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#090B0E",
-  "theme_color": "#090B0E",
+  "background_color": "#020406",
+  "theme_color": "#020406",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2503/2503529.png",
+      "src": "nerdix.jpg",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/jpeg",
       "purpose": "any maskable"
     }
   ]
