@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Nerdix Sentinel | v6.2.0 Lucky 9</title>
     
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#020406">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     
     <style>
@@ -26,12 +31,8 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body { 
-            background: var(--bg); 
-            color: var(--text-main); 
-            height: 100vh; 
-            overflow: hidden; 
-            display: flex; 
-            justify-content: center; 
+            background: var(--bg); color: var(--text-main); height: 100vh; overflow: hidden; 
+            display: flex; justify-content: center; 
             background-image: radial-gradient(circle at 50% 10%, var(--glow) 0%, #020406 100%); 
             transition: background 0.8s ease; 
         }
@@ -45,281 +46,183 @@
 
         .screen.hide { opacity: 0; visibility: hidden; transform: scale(0.98); pointer-events: none; }
 
-        .theme-grid { width: 100%; max-width: 340px; display: grid; grid-template-columns: 1fr; gap: 10px; margin: 25px 0; }
+        .theme-grid { width: 100%; max-width: 340px; display: grid; grid-template-columns: 1fr; gap: 10px; margin: 20px 0; }
         .theme-box { background: var(--card-bg); border: 1px solid var(--border); padding: 15px; border-radius: 18px; display: flex; align-items: center; gap: 15px; cursor: pointer; transition: 0.3s; }
         .theme-box.selected { border-color: var(--accent); background: rgba(255,255,255,0.08); box-shadow: 0 0 15px var(--glow); }
         .theme-box svg { width: 22px; height: 22px; stroke: var(--text-muted); stroke-width: 2; fill: none; }
-        .theme-box.selected svg { stroke: var(--accent); }
         
-        .theme-info h4 { font-size: 0.85rem; font-weight: 800; margin-bottom: 2px; }
-        .theme-info p { font-size: 0.6rem; color: var(--text-muted); }
-
         .app-shell { width: 100%; max-width: 380px; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; }
-        .btn-batal { background: #FFFFFF; color: #000; border: none; font-size: 0.6rem; padding: 8px 18px; border-radius: 50px; cursor: pointer; font-weight: 800; }
 
-        /* Updated Stats Row (HARI INI DIHAPUS) */
         .stats-row { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
         .stats-col { background: var(--card-bg); padding: 15px 5px; border-radius: 18px; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; }
-        .stats-label { font-size: 0.5rem; color: var(--text-muted); font-weight: 800; margin-bottom: 4px; }
-        .stats-value { font-family: 'JetBrains Mono'; font-size: 0.85rem; color: var(--accent); }
+        .stats-label { font-size: 0.5rem; color: var(--text-muted); font-weight: 800; }
+        .stats-value { font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--accent); margin-top: 4px; }
         
-        .rank-card { width: 100%; background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 20px; border-radius: 25px; margin-bottom: 30px; }
-        .rank-main { font-weight: 800; font-size: 0.95rem; color: var(--accent); letter-spacing: 2px; }
-        .exp-track { width: 100%; height: 4px; background: rgba(255,255,255,0.04); border-radius: 10px; margin-top: 10px; overflow: hidden; }
-        .exp-fill { height: 100%; background: var(--accent); width: 0%; transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
-
-        /* Timer Diperbesar */
-        .timer-circle { width: 200px; height: 200px; border-radius: 50%; border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; background: var(--card-bg); transition: 0.5s; position: relative; }
+        .timer-circle { width: 220px; height: 220px; border-radius: 50%; border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; background: var(--card-bg); transition: 0.6s; position: relative; }
         .timer-circle.active { border-color: var(--accent); box-shadow: 0 0 50px var(--glow); transform: scale(1.05); }
 
-        .btn-mulai { padding: 12px 35px; border-radius: 100px; border: none; background: var(--accent); color: #000; font-weight: 800; cursor: pointer; box-shadow: 0 8px 20px var(--glow); margin-top: 35px; font-size: 0.75rem; }
-        .btn-selesai { margin-top: 20px; background: none; border: none; color: var(--text-muted); font-weight: 800; font-size: 0.6rem; cursor: pointer; border-bottom: 1px solid var(--border); }
-
-        #bonus-pop { position: absolute; top: -30px; color: var(--accent); font-weight: 800; font-size: 0.8rem; opacity: 0; transition: 0.3s; pointer-events: none; }
-        #bonus-pop.show { opacity: 1; transform: translateY(-15px); }
+        .btn-mulai { padding: 14px 45px; border-radius: 100px; border: none; background: var(--accent); color: #000; font-weight: 800; cursor: pointer; box-shadow: 0 8px 25px var(--glow); margin-top: 35px; font-size: 0.75rem; transition: 0.3s; }
+        
+        /* Tombol Install Khusus */
+        #install-btn { 
+            display: none; position: absolute; bottom: 30px; background: rgba(255,255,255,0.1); 
+            border: 1px solid var(--border); color: #fff; padding: 10px 20px; border-radius: 50px; 
+            font-size: 0.6rem; font-weight: 800; cursor: pointer;
+        }
 
         .hp-indicator { display: flex; align-items: center; gap: 10px; margin-top: 20px; font-size: 0.6rem; font-weight: 800; color: var(--text-muted); }
-        .hp-dot { width: 8px; height: 8px; background: #6C727A; border-radius: 50%; transition: 0.3s; }
+        .hp-dot { width: 8px; height: 8px; background: #333; border-radius: 50%; animation: pulse 1.5s infinite; }
         .hp-connected { color: var(--accent); }
-        .hp-connected .hp-dot { background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+        .hp-connected .hp-dot { background: var(--accent); box-shadow: 0 0 12px var(--accent); animation: none; }
+
+        @keyframes pulse { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
     </style>
 </head>
 <body class="mood-belajar">
 
-    <audio id="mood-audio" loop></audio>
+    <audio id="bg-audio" loop></audio>
 
     <div id="screen-welcome" class="screen">
         <h1 style="font-weight: 800; font-size: 1.6rem;">Nerdix Sentinel</h1>
-        <p style="font-size: 0.55rem; color: var(--text-muted); letter-spacing: 1px; margin-top: 8px; font-weight: 600;">PILIH MODE KAMU</p>
+        <p style="font-size: 0.55rem; color: var(--text-muted); letter-spacing: 1px; margin-top: 8px;">PILIH MODE OPERASI</p>
         <div class="theme-grid">
-            <div class="theme-box" id="t-ujian" onclick="pilihTema('ujian')">
-                <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                <div class="theme-info"><h4>UJIAN</h4><p>Keheningan mutlak untuk fokus tinggi.</p></div>
+            <div class="theme-box" id="t-ujian" onclick="pilihTema('ujian', 'audio_ujian.mp3')">
+                <div class="theme-info"><h4>UJIAN</h4><p>Fokus mutlak.</p></div>
             </div>
-            <div class="theme-box" id="t-belajar" onclick="pilihTema('belajar')">
-                <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                <div class="theme-info"><h4>BELAJAR</h4><p>Alunan tenang untuk daya serap otak.</p></div>
+            <div class="theme-box" id="t-belajar" onclick="pilihTema('belajar', 'audio_belajar.mp3')">
+                <div class="theme-info"><h4>BELAJAR</h4><p>Lofi santai.</p></div>
             </div>
-            <div class="theme-box" id="t-tugas" onclick="pilihTema('tugas')">
-                <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                <div class="theme-info"><h4>TUGAS</h4><p>Irama produktif penambah semangat.</p></div>
-            </div>
-            <div class="theme-box" id="t-baca" onclick="pilihTema('baca')">
-                <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                <div class="theme-info"><h4>BACA</h4><p>Suasana hangat untuk imajinasi buku.</p></div>
+            <div class="theme-box" id="t-tugas" onclick="pilihTema('tugas', 'audio_tugas.mp3')">
+                <div class="theme-info"><h4>TUGAS</h4><p>Produktif.</p></div>
             </div>
         </div>
         <button class="btn-mulai" id="gas-btn" style="opacity:0.2; pointer-events:none;" onclick="startAudioMissions()">MULAI MISI</button>
+        
+        <button id="install-btn" onclick="triggerInstall()">INSTALL NERDIX APP</button>
     </div>
 
     <div id="screen-audio" class="screen hide">
-        <svg id="hp-icon" style="width:70px; height:70px; margin-bottom:20px; transition: 0.5s;" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.8">
-            <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
-            <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+        <svg id="hp-icon" style="width:70px; height:70px; margin-bottom:20px;" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.8">
+            <path d="M3 18v-6a9 9 0 0 1 18 0v6M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
         </svg>
-        <h2 style="font-size: 1.1rem; margin-bottom: 8px; letter-spacing: 1px;">SINKRONISASI AUDIO</h2>
-        <p style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 15px; text-align: center; padding: 0 40px;">Gunakan aksesori audio favoritmu untuk perlindungan fokus maksimal.</p>
-        
+        <h2 style="font-size: 1.1rem; letter-spacing: 1px;">SYNC AUDIO DEVICE</h2>
         <div class="hp-indicator" id="hp-stat">
             <div class="hp-dot"></div>
-            <span id="hp-text">MENCARI PERANGKAT...</span>
+            <span id="hp-text">MENUNGGU TANDA HEADSET</span>
         </div>
-
-        <button class="btn-mulai" id="hp-ready-btn" style="width: 180px; opacity: 0.3; pointer-events: none;" onclick="navigasi('screen-audio', 'app-timer-screen')">SAYA SIAP</button>
-        <button onclick="navigasi('screen-audio', 'screen-welcome')" style="background:none; border:none; color:var(--text-muted); font-size:0.55rem; margin-top:20px; cursor:pointer; font-weight:800;">KEMBALI</button>
+        <button class="btn-mulai" id="hp-ready-btn" style="opacity: 0.1; pointer-events: none;" onclick="navigasi('screen-audio', 'app-timer-screen')">MASUK</button>
     </div>
 
     <div id="app-timer-screen" class="screen hide">
         <div class="app-shell">
-            <header style="width:100%; display:flex; justify-content:space-between; margin-bottom:25px; align-items:center;">
-                <button class="btn-batal" onclick="kembaliKeMenu()">BATAL</button>
-                <span id="st-label" style="font-size:0.5rem; font-weight:800; color:var(--text-muted); letter-spacing:1px;">FOKUS AKTIF</span>
-            </header>
-            
             <div class="stats-row">
-                <div class="stats-col" style="border-color: var(--accent);"><p class="stats-label">RANK</p><p class="stats-value" id="header-rank">SHELL</p></div>
+                <div class="stats-col"><p class="stats-label">RANK</p><p class="stats-value" id="header-rank">SHELL</p></div>
                 <div class="stats-col"><p class="stats-label">TOTAL EXP</p><p class="stats-value" id="e-total">0</p></div>
             </div>
-
-            <div class="rank-card">
-                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
-                    <div><p style="font-size:0.45rem; color:var(--text-muted); margin-bottom:2px;">PROGRES RANK</p><span class="rank-main" id="r-name">SHELL</span></div>
-                    <span style="font-size:0.55rem; color:var(--text-muted); font-family:'JetBrains Mono';" id="r-progress">0/100</span>
-                </div>
-                <div class="exp-track"><div class="exp-fill" id="r-bar"></div></div>
-            </div>
-
             <div class="timer-circle" id="t-circle">
-                <span id="bonus-pop">LUCKY 9!</span>
-                <div style="font-family:'JetBrains Mono'; font-size:3.5rem;" id="t-val">0<span style="font-size:1.2rem; color:var(--accent);">d</span></div>
+                <div style="font-family:'JetBrains Mono'; font-size:4rem;" id="t-val">0<span style="font-size:1.2rem; color:var(--accent);">s</span></div>
             </div>
-
             <button class="btn-mulai" id="m-btn" onclick="toggle()">MULAI FOKUS</button>
-            <button class="btn-selesai" id="f-btn" style="display:none;" onclick="selesai()">Selesaikan Sesi</button>
+            <button style="margin-top:20px; background:none; border:none; color:var(--text-muted); cursor:pointer;" onclick="selesai()">Selesai</button>
         </div>
     </div>
 
     <script>
-        let detik = 0, jalan = false, timer;
-        let currentTheme = 'belajar';
+        let detik = 0, jalan = false, timer, deferredPrompt;
         let exp = parseInt(localStorage.getItem('ocean_exp_v62') || 0);
+        const audioPlayer = document.getElementById('bg-audio');
 
-        const ranks = [
-            { n: "SHELL", cap: 100 }, { n: "STARFISH", cap: 500 },
-            { n: "CORAL", cap: 2000 }, { n: "PEARL", cap: 10000 },
-            { n: "ABYSS", cap: 100000 }
-        ];
+        // LOGIKA TOMBOL INSTALL
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('install-btn').style.display = 'block';
+        });
 
-        // KONFIGURASI AUDIO MP3 KAMU
-        const playlist = {
-            ujian: 'audio-ujian.mp3', // Ganti dengan link audio kamu
-            belajar: 'audio-belajar.mp3',
-            tugas: 'audio-tugas.mp3',
-            baca: 'audio-baca.mp3'
-        };
-
-        const audioPlayer = document.getElementById('mood-audio');
-
-        async function checkAudioHardware() {
-            try {
-                const devices = await navigator.mediaDevices.enumerateDevices();
-                const hasHeadphones = devices.some(d => 
-                    d.kind === 'audiooutput' && 
-                    (d.label.toLowerCase().includes('head') || 
-                     d.label.toLowerCase().includes('blue') || 
-                     d.label.toLowerCase().includes('ear') ||
-                     d.label.toLowerCase().includes('tws') ||
-                     d.label.toLowerCase().includes('aid') ||
-                     d.label.toLowerCase().includes('bone') ||
-                     (d.label !== "" && !d.label.toLowerCase().includes('speaker')))
-                );
-
-                const btn = document.getElementById('hp-ready-btn');
-                const stat = document.getElementById('hp-stat');
-                const text = document.getElementById('hp-text');
-                const icon = document.getElementById('hp-icon');
-
-                if (hasHeadphones) {
-                    stat.classList.add('hp-connected');
-                    text.innerText = "AKSESORI AUDIO TERDETEKSI";
-                    btn.style.opacity = "1";
-                    btn.style.pointerEvents = "auto";
-                    icon.style.stroke = "var(--accent)";
-                    icon.style.filter = "drop-shadow(0 0 15px var(--accent))";
-                    
-                    if(!document.getElementById('screen-audio').classList.contains('hide')) {
-                        setTimeout(() => navigasi('screen-audio', 'app-timer-screen'), 1800);
-                    }
-                } else {
-                    stat.classList.remove('hp-connected');
-                    text.innerText = "HUBUNGKAN PERANGKAT AUDIO...";
-                    btn.style.opacity = "0.3";
-                    btn.style.pointerEvents = "none";
+        async function triggerInstall() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    document.getElementById('install-btn').style.display = 'none';
                 }
-            } catch (e) { console.log(e); }
+                deferredPrompt = null;
+            }
         }
 
-        setInterval(checkAudioHardware, 1500);
+        // SERVICE WORKER
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js');
+            });
+        }
+
+        // HEADSET CHECK
+        async function checkAudioHardware() {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const hasHeadphones = devices.some(d => 
+                d.kind === 'audiooutput' && 
+                (d.label.toLowerCase().includes('head') || d.label.toLowerCase().includes('blue') || d.label.toLowerCase().includes('ear') ||
+                (d.label !== "" && !d.label.toLowerCase().includes('speaker')))
+            );
+
+            const btn = document.getElementById('hp-ready-btn');
+            const stat = document.getElementById('hp-stat');
+            const text = document.getElementById('hp-text');
+
+            if (hasHeadphones) {
+                stat.classList.add('hp-connected');
+                text.innerText = "TANDA HEADSET AKTIF";
+                btn.style.opacity = "1"; btn.style.pointerEvents = "auto";
+            } else {
+                stat.classList.remove('hp-connected');
+                text.innerText = "MENUNGGU TANDA HEADSET";
+                btn.style.opacity = "0.1"; btn.style.pointerEvents = "none";
+            }
+        }
+        setInterval(checkAudioHardware, 1000);
 
         function startAudioMissions() {
-            navigator.mediaDevices.getUserMedia({ audio: true })
-                .then(stream => {
-                    stream.getTracks().forEach(track => track.stop());
-                    checkAudioHardware();
-                    navigasi('screen-welcome', 'screen-audio');
-                })
-                .catch(() => {
-                    checkAudioHardware();
-                    navigasi('screen-welcome', 'screen-audio');
-                });
+            navigator.mediaDevices.getUserMedia({ audio: true }).then(s => {
+                s.getTracks().forEach(t => t.stop());
+                navigasi('screen-welcome', 'screen-audio');
+            }).catch(() => navigasi('screen-welcome', 'screen-audio'));
         }
 
-        function navigasi(idKeluar, idMasuk) {
-            document.getElementById(idKeluar).classList.add('hide');
-            setTimeout(() => {
-                document.getElementById(idMasuk).classList.remove('hide');
-                if(idMasuk === 'app-timer-screen') updateStats();
-            }, 300);
-        }
-
-        function kembaliKeMenu() {
-            audioPlayer.pause();
-            navigasi('app-timer-screen', 'screen-welcome');
-            selesai();
+        function navigasi(out, inId) {
+            document.getElementById(out).classList.add('hide');
+            setTimeout(() => document.getElementById(inId).classList.remove('hide'), 300);
         }
 
         function toggle() {
             if(!jalan) {
-                jalan = true;
-                audioPlayer.src = playlist[currentTheme];
-                audioPlayer.play();
+                jalan = true; audioPlayer.play();
                 document.getElementById('m-btn').innerText = "PAUSE";
                 document.getElementById('t-circle').classList.add('active');
-                document.getElementById('f-btn').style.display = "inline-block";
                 timer = setInterval(() => {
-                    detik++;
-                    if(detik % 2 === 0) exp += 5;
-                    if (detik.toString().includes('9')) {
-                        exp += Math.floor(Math.random() * 3) + 3;
-                        tampilBonus();
-                    }
-                    document.getElementById('t-val').innerHTML = detik + '<span style="font-size:1.2rem; color:var(--accent);">d</span>';
-                    updateStats();
+                    detik++; exp += 2;
+                    document.getElementById('t-val').innerHTML = detik + '<span style="font-size:1.2rem; color:var(--accent);">s</span>';
+                    document.getElementById('e-total').innerText = exp;
                 }, 1000);
             } else {
-                jalan = false; 
-                clearInterval(timer);
-                audioPlayer.pause();
+                jalan = false; audioPlayer.pause(); clearInterval(timer);
                 document.getElementById('m-btn').innerText = "LANJUTKAN";
                 document.getElementById('t-circle').classList.remove('active');
             }
         }
 
-        function tampilBonus() {
-            const pop = document.getElementById('bonus-pop');
-            pop.classList.add('show');
-            setTimeout(() => pop.classList.remove('show'), 800);
-        }
-
         function selesai() {
+            jalan = false; clearInterval(timer); audioPlayer.pause();
             localStorage.setItem('ocean_exp_v62', exp);
-            jalan = false; clearInterval(timer);
-            audioPlayer.pause();
-            detik = 0;
-            document.getElementById('t-val').innerHTML = '0<span style="font-size:1.2rem; color:var(--accent);">d</span>';
-            document.getElementById('m-btn').innerText = "MULAI FOKUS";
-            document.getElementById('f-btn').style.display = "none";
-            document.getElementById('t-circle').classList.remove('active');
-            updateStats();
+            location.reload();
         }
 
-        function updateRank() {
-            let r = 0;
-            while(r < ranks.length - 1 && exp >= ranks[r].cap) r++;
-            const cur = ranks[r];
-            const prevCap = r === 0 ? 0 : ranks[r-1].cap;
-            const percent = ((exp - prevCap) / (cur.cap - prevCap)) * 100;
-            document.getElementById('header-rank').innerText = cur.n;
-            document.getElementById('r-name').innerText = cur.n;
-            document.getElementById('r-progress').innerText = `${exp}/${cur.cap}`;
-            document.getElementById('r-bar').style.width = Math.min(percent, 100) + "%";
-        }
-
-        function updateStats() {
-            document.getElementById('e-total').innerText = exp;
-            updateRank();
-        }
-
-        function pilihTema(m) {
-            currentTheme = m;
+        function pilihTema(m, file) {
             document.body.className = `mood-${m}`;
-            document.querySelectorAll('.theme-box').forEach(b => b.classList.remove('selected'));
-            document.getElementById('t-'+m).classList.add('selected');
+            audioPlayer.src = file;
             document.getElementById('gas-btn').style.opacity = "1";
             document.getElementById('gas-btn').style.pointerEvents = "auto";
         }
-
-        updateStats();
     </script>
 </body>
 </html>
