@@ -70,17 +70,17 @@
         .timer-circle { width: 140px; height: 140px; border-radius: 50%; border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; background: var(--card-bg); transition: 0.5s; position: relative; }
         .timer-circle.active { border-color: var(--accent); box-shadow: 0 0 30px var(--glow); scale: 1.1; }
 
-        .btn-mulai { padding: 12px 35px; border-radius: 100px; border: none; background: var(--accent); color: #000; font-weight: 800; cursor: pointer; box-shadow: 0 8px 20px var(--glow); margin-top: 30px; font-size: 0.7rem; transition: 0.3s; }
+        .btn-mulai { padding: 12px 35px; border-radius: 100px; border: none; background: var(--accent); color: #000; font-weight: 800; cursor: pointer; box-shadow: 0 8px 20px var(--glow); margin-top: 30px; font-size: 0.7rem; }
         .btn-selesai { margin-top: 20px; background: none; border: none; color: var(--text-muted); font-weight: 800; font-size: 0.6rem; cursor: pointer; border-bottom: 1px solid var(--border); }
 
         #bonus-pop { position: absolute; top: -30px; color: var(--accent); font-weight: 800; font-size: 0.7rem; opacity: 0; transition: 0.3s; pointer-events: none; }
         #bonus-pop.show { opacity: 1; transform: translateY(-10px); }
 
-        /* Headphone Status Styling */
-        .hp-indicator { display: flex; align-items: center; gap: 8px; margin-top: 15px; font-size: 0.55rem; font-weight: 800; color: var(--text-muted); transition: 0.3s; }
-        .hp-dot { width: 6px; height: 6px; background: #6C727A; border-radius: 50%; }
+        /* Smooth HP Indicator */
+        .hp-indicator { display: flex; align-items: center; gap: 8px; margin-top: 15px; font-size: 0.55rem; font-weight: 800; color: var(--text-muted); transition: 0.5s; }
+        .hp-dot { width: 6px; height: 6px; background: #6C727A; border-radius: 50%; transition: 0.3s; }
         .hp-connected { color: var(--accent); }
-        .hp-connected .hp-dot { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+        .hp-connected .hp-dot { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
     </style>
 </head>
 <body class="mood-belajar">
@@ -106,23 +106,23 @@
                 <div class="theme-info"><h4>BACA</h4><p>Ruang tenang untuk menyerap informasi buku.</p></div>
             </div>
         </div>
-        <button class="btn-mulai" id="gas-btn" style="opacity:0.2; pointer-events:none;" onclick="navToAudio()">MULAI MISI</button>
+        <button class="btn-mulai" id="gas-btn" style="opacity:0.2; pointer-events:none;" onclick="startAudioMissions()">MULAI MISI</button>
     </div>
 
     <div id="screen-audio" class="screen hide">
-        <svg id="audio-icon" style="width:70px; height:70px; margin-bottom:20px; transition: 0.5s;" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.8">
+        <svg id="hp-icon" style="width:70px; height:70px; margin-bottom:20px; transition: 0.5s;" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.8">
             <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
             <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
         </svg>
-        <h2 id="hp-title" style="font-size: 1.1rem; margin-bottom: 8px; letter-spacing: 1px;">MENUNGGU AUDIO</h2>
-        <p id="hp-sub" style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 5px; text-align: center; padding: 0 40px;">Senyapkan dunia sekitarmu.</p>
+        <h2 style="font-size: 1.1rem; margin-bottom: 8px; letter-spacing: 1px;">SINKRONISASI AUDIO</h2>
+        <p style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 15px; text-align: center;">Gunakan earphone agar fokus tetap terjaga.</p>
         
         <div class="hp-indicator" id="hp-stat">
             <div class="hp-dot"></div>
-            <span id="hp-text">SAMBUNGKAN HEADPHONE</span>
+            <span id="hp-text">MENCARI PERANGKAT...</span>
         </div>
 
-        <button class="btn-mulai" id="hp-btn" style="width: 180px; opacity: 0.3; pointer-events: none;" onclick="navigasi('screen-audio', 'app-timer-screen')">SAYA SIAP</button>
+        <button class="btn-mulai" id="hp-ready-btn" style="width: 180px; opacity: 0.3; pointer-events: none;" onclick="navigasi('screen-audio', 'app-timer-screen')">SAYA SIAP</button>
         <button onclick="navigasi('screen-audio', 'screen-welcome')" style="background:none; border:none; color:var(--text-muted); font-size:0.55rem; margin-top:20px; cursor:pointer; font-weight:800;">KEMBALI</button>
     </div>
 
@@ -163,54 +163,61 @@
             { n: "ABYSS", cap: 100000 }
         ];
 
-        // --- DETEKSI HEADPHONE LOGIC ---
-        function checkHeadphones() {
-            if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return;
-
-            navigator.mediaDevices.enumerateDevices().then(devices => {
+        // --- DETEKSI HEADPHONE REAL-TIME ---
+        async function checkAudioHardware() {
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                // Logic: Cari yang berlabel headphone ATAU yang bukan speaker bawaan
                 const hasHeadphones = devices.some(d => 
                     d.kind === 'audiooutput' && 
-                    (d.label.toLowerCase().includes('head') || d.label.toLowerCase().includes('blue') || d.label.toLowerCase().includes('ear'))
+                    (d.label.toLowerCase().includes('head') || 
+                     d.label.toLowerCase().includes('blue') || 
+                     d.label.toLowerCase().includes('ear') ||
+                     (d.label !== "" && !d.label.toLowerCase().includes('speaker')))
                 );
 
-                const btn = document.getElementById('hp-btn');
+                const btn = document.getElementById('hp-ready-btn');
                 const stat = document.getElementById('hp-stat');
                 const text = document.getElementById('hp-text');
-                const icon = document.getElementById('audio-icon');
+                const icon = document.getElementById('hp-icon');
 
                 if (hasHeadphones) {
                     stat.classList.add('hp-connected');
-                    text.innerText = "HEADPHONE TERDETEKSI";
+                    text.innerText = "HEADPHONE AKTIF";
                     btn.style.opacity = "1";
                     btn.style.pointerEvents = "auto";
                     icon.style.stroke = "var(--accent)";
                     icon.style.filter = "drop-shadow(0 0 10px var(--accent))";
-                    // Auto-pindah halus jika user sedang di screen audio
+                    
+                    // Auto-forward halus
                     if(!document.getElementById('screen-audio').classList.contains('hide')) {
-                        setTimeout(() => navigasi('screen-audio', 'app-timer-screen'), 1200);
+                        setTimeout(() => navigasi('screen-audio', 'app-timer-screen'), 1500);
                     }
                 } else {
                     stat.classList.remove('hp-connected');
-                    text.innerText = "SAMBUNGKAN HEADPHONE";
+                    text.innerText = "MENUNGGU EARPHONE...";
                     btn.style.opacity = "0.3";
                     btn.style.pointerEvents = "none";
-                    icon.style.stroke = "var(--text-muted)";
-                    icon.style.filter = "none";
                 }
-            });
+            } catch (e) { console.log(e); }
         }
 
-        setInterval(() => {
-            if(!document.getElementById('screen-audio').classList.contains('hide')) checkHeadphones();
-        }, 2000);
+        // Jalankan polling deteksi
+        setInterval(checkAudioHardware, 1500);
 
-        function navToAudio() {
-            // Meminta izin agar label device (headphone) muncul di browser mobile
+        function startAudioMissions() {
+            // Minta izin mikrofon HANYA untuk membuka akses label nama perangkat audio
             navigator.mediaDevices.getUserMedia({ audio: true })
-                .then(s => { s.getTracks().forEach(t => t.stop()); checkHeadphones(); })
-                .catch(() => checkHeadphones());
-            
-            navigasi('screen-welcome', 'screen-audio');
+                .then(stream => {
+                    stream.getTracks().forEach(track => track.stop()); // Matikan mic lagi
+                    checkAudioHardware();
+                    navigasi('screen-welcome', 'screen-audio');
+                })
+                .catch(() => {
+                    // Jika user menolak izin, tetap lanjut tapi deteksi label mungkin gagal
+                    checkAudioHardware();
+                    navigasi('screen-welcome', 'screen-audio');
+                });
         }
         // --- END DETEKSI ---
 
