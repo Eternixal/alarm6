@@ -57,53 +57,56 @@
         .app-shell { width: 100%; max-width: 380px; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; }
         .btn-batal { background: #FFFFFF; color: #000; border: none; font-size: 0.6rem; padding: 8px 18px; border-radius: 50px; cursor: pointer; font-weight: 800; }
 
-        .stats-row { width: 100%; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 25px; }
-        .stats-col { background: var(--card-bg); padding: 12px 5px; border-radius: 18px; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; }
-        .stats-label { font-size: 0.45rem; color: var(--text-muted); font-weight: 800; }
-        .stats-value { font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--accent); }
+        /* Updated Stats Row (HARI INI DIHAPUS) */
+        .stats-row { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
+        .stats-col { background: var(--card-bg); padding: 15px 5px; border-radius: 18px; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; }
+        .stats-label { font-size: 0.5rem; color: var(--text-muted); font-weight: 800; margin-bottom: 4px; }
+        .stats-value { font-family: 'JetBrains Mono'; font-size: 0.85rem; color: var(--accent); }
         
         .rank-card { width: 100%; background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 20px; border-radius: 25px; margin-bottom: 30px; }
         .rank-main { font-weight: 800; font-size: 0.95rem; color: var(--accent); letter-spacing: 2px; }
         .exp-track { width: 100%; height: 4px; background: rgba(255,255,255,0.04); border-radius: 10px; margin-top: 10px; overflow: hidden; }
         .exp-fill { height: 100%; background: var(--accent); width: 0%; transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
 
-        .timer-circle { width: 140px; height: 140px; border-radius: 50%; border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; background: var(--card-bg); transition: 0.5s; position: relative; }
-        .timer-circle.active { border-color: var(--accent); box-shadow: 0 0 30px var(--glow); scale: 1.1; }
+        /* Timer Diperbesar */
+        .timer-circle { width: 200px; height: 200px; border-radius: 50%; border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; background: var(--card-bg); transition: 0.5s; position: relative; }
+        .timer-circle.active { border-color: var(--accent); box-shadow: 0 0 50px var(--glow); transform: scale(1.05); }
 
-        .btn-mulai { padding: 12px 35px; border-radius: 100px; border: none; background: var(--accent); color: #000; font-weight: 800; cursor: pointer; box-shadow: 0 8px 20px var(--glow); margin-top: 30px; font-size: 0.7rem; }
+        .btn-mulai { padding: 12px 35px; border-radius: 100px; border: none; background: var(--accent); color: #000; font-weight: 800; cursor: pointer; box-shadow: 0 8px 20px var(--glow); margin-top: 35px; font-size: 0.75rem; }
         .btn-selesai { margin-top: 20px; background: none; border: none; color: var(--text-muted); font-weight: 800; font-size: 0.6rem; cursor: pointer; border-bottom: 1px solid var(--border); }
 
-        #bonus-pop { position: absolute; top: -30px; color: var(--accent); font-weight: 800; font-size: 0.7rem; opacity: 0; transition: 0.3s; pointer-events: none; }
-        #bonus-pop.show { opacity: 1; transform: translateY(-10px); }
+        #bonus-pop { position: absolute; top: -30px; color: var(--accent); font-weight: 800; font-size: 0.8rem; opacity: 0; transition: 0.3s; pointer-events: none; }
+        #bonus-pop.show { opacity: 1; transform: translateY(-15px); }
 
-        /* Smooth HP Indicator */
-        .hp-indicator { display: flex; align-items: center; gap: 8px; margin-top: 15px; font-size: 0.55rem; font-weight: 800; color: var(--text-muted); transition: 0.5s; }
-        .hp-dot { width: 6px; height: 6px; background: #6C727A; border-radius: 50%; transition: 0.3s; }
+        .hp-indicator { display: flex; align-items: center; gap: 10px; margin-top: 20px; font-size: 0.6rem; font-weight: 800; color: var(--text-muted); }
+        .hp-dot { width: 8px; height: 8px; background: #6C727A; border-radius: 50%; transition: 0.3s; }
         .hp-connected { color: var(--accent); }
-        .hp-connected .hp-dot { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+        .hp-connected .hp-dot { background: var(--accent); box-shadow: 0 0 12px var(--accent); }
     </style>
 </head>
 <body class="mood-belajar">
 
+    <audio id="mood-audio" loop></audio>
+
     <div id="screen-welcome" class="screen">
         <h1 style="font-weight: 800; font-size: 1.6rem;">Nerdix Sentinel</h1>
-        <p style="font-size: 0.55rem; color: var(--text-muted); letter-spacing: 1px; margin-top: 8px; font-weight: 600;">PILIH MODE KAMU YANG DI PRIORITASKAN</p>
+        <p style="font-size: 0.55rem; color: var(--text-muted); letter-spacing: 1px; margin-top: 8px; font-weight: 600;">PILIH MODE KAMU</p>
         <div class="theme-grid">
             <div class="theme-box" id="t-ujian" onclick="pilihTema('ujian')">
                 <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                <div class="theme-info"><h4>UJIAN</h4><p>Fokus mutlak tanpa suara latar belakang.</p></div>
+                <div class="theme-info"><h4>UJIAN</h4><p>Keheningan mutlak untuk fokus tinggi.</p></div>
             </div>
             <div class="theme-box" id="t-belajar" onclick="pilihTema('belajar')">
                 <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                <div class="theme-info"><h4>BELAJAR</h4><p>Ditemani audio Lofi untuk pemahaman mendalam.</p></div>
+                <div class="theme-info"><h4>BELAJAR</h4><p>Alunan tenang untuk daya serap otak.</p></div>
             </div>
             <div class="theme-box" id="t-tugas" onclick="pilihTema('tugas')">
                 <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                <div class="theme-info"><h4>TUGAS</h4><p>Meningkatkan produktivitas pengerjaan tugas.</p></div>
+                <div class="theme-info"><h4>TUGAS</h4><p>Irama produktif penambah semangat.</p></div>
             </div>
             <div class="theme-box" id="t-baca" onclick="pilihTema('baca')">
                 <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                <div class="theme-info"><h4>BACA</h4><p>Ruang tenang untuk menyerap informasi buku.</p></div>
+                <div class="theme-info"><h4>BACA</h4><p>Suasana hangat untuk imajinasi buku.</p></div>
             </div>
         </div>
         <button class="btn-mulai" id="gas-btn" style="opacity:0.2; pointer-events:none;" onclick="startAudioMissions()">MULAI MISI</button>
@@ -115,7 +118,7 @@
             <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
         </svg>
         <h2 style="font-size: 1.1rem; margin-bottom: 8px; letter-spacing: 1px;">SINKRONISASI AUDIO</h2>
-        <p style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 15px; text-align: center;">Gunakan earphone agar fokus tetap terjaga.</p>
+        <p style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 15px; text-align: center; padding: 0 40px;">Gunakan aksesori audio favoritmu untuk perlindungan fokus maksimal.</p>
         
         <div class="hp-indicator" id="hp-stat">
             <div class="hp-dot"></div>
@@ -129,25 +132,28 @@
     <div id="app-timer-screen" class="screen hide">
         <div class="app-shell">
             <header style="width:100%; display:flex; justify-content:space-between; margin-bottom:25px; align-items:center;">
-                <button class="btn-batal" onclick="navigasi('app-timer-screen', 'screen-welcome')">BATAL</button>
-                <span id="st-label" style="font-size:0.5rem; font-weight:800; color:var(--text-muted); letter-spacing:1px;">SIAP</span>
+                <button class="btn-batal" onclick="kembaliKeMenu()">BATAL</button>
+                <span id="st-label" style="font-size:0.5rem; font-weight:800; color:var(--text-muted); letter-spacing:1px;">FOKUS AKTIF</span>
             </header>
+            
             <div class="stats-row">
-                <div class="stats-col"><p class="stats-label">HARI INI</p><p class="stats-value" id="d-total">0d</p></div>
                 <div class="stats-col" style="border-color: var(--accent);"><p class="stats-label">RANK</p><p class="stats-value" id="header-rank">SHELL</p></div>
-                <div class="stats-col"><p class="stats-label">EXP</p><p class="stats-value" id="e-total">0</p></div>
+                <div class="stats-col"><p class="stats-label">TOTAL EXP</p><p class="stats-value" id="e-total">0</p></div>
             </div>
+
             <div class="rank-card">
                 <div style="display:flex; justify-content:space-between; align-items:flex-end;">
-                    <div><p style="font-size:0.45rem; color:var(--text-muted); margin-bottom:2px;">RANK KAMU</p><span class="rank-main" id="r-name">SHELL</span></div>
+                    <div><p style="font-size:0.45rem; color:var(--text-muted); margin-bottom:2px;">PROGRES RANK</p><span class="rank-main" id="r-name">SHELL</span></div>
                     <span style="font-size:0.55rem; color:var(--text-muted); font-family:'JetBrains Mono';" id="r-progress">0/100</span>
                 </div>
                 <div class="exp-track"><div class="exp-fill" id="r-bar"></div></div>
             </div>
+
             <div class="timer-circle" id="t-circle">
                 <span id="bonus-pop">LUCKY 9!</span>
-                <div style="font-family:'JetBrains Mono'; font-size:2.8rem;" id="t-val">0<span style="font-size:1rem; color:var(--accent);">d</span></div>
+                <div style="font-family:'JetBrains Mono'; font-size:3.5rem;" id="t-val">0<span style="font-size:1.2rem; color:var(--accent);">d</span></div>
             </div>
+
             <button class="btn-mulai" id="m-btn" onclick="toggle()">MULAI FOKUS</button>
             <button class="btn-selesai" id="f-btn" style="display:none;" onclick="selesai()">Selesaikan Sesi</button>
         </div>
@@ -155,24 +161,36 @@
 
     <script>
         let detik = 0, jalan = false, timer;
+        let currentTheme = 'belajar';
         let exp = parseInt(localStorage.getItem('ocean_exp_v62') || 0);
 
         const ranks = [
-            { n: "SHELL", cap: 100 }, { n: "SHELL", cap: 500 },
+            { n: "SHELL", cap: 100 }, { n: "STARFISH", cap: 500 },
             { n: "CORAL", cap: 2000 }, { n: "PEARL", cap: 10000 },
             { n: "ABYSS", cap: 100000 }
         ];
 
-        // --- DETEKSI HEADPHONE REAL-TIME ---
+        // KONFIGURASI AUDIO MP3 KAMU
+        const playlist = {
+            ujian: 'audio-ujian.mp3', // Ganti dengan link audio kamu
+            belajar: 'audio-belajar.mp3',
+            tugas: 'audio-tugas.mp3',
+            baca: 'audio-baca.mp3'
+        };
+
+        const audioPlayer = document.getElementById('mood-audio');
+
         async function checkAudioHardware() {
             try {
                 const devices = await navigator.mediaDevices.enumerateDevices();
-                // Logic: Cari yang berlabel headphone ATAU yang bukan speaker bawaan
                 const hasHeadphones = devices.some(d => 
                     d.kind === 'audiooutput' && 
                     (d.label.toLowerCase().includes('head') || 
                      d.label.toLowerCase().includes('blue') || 
                      d.label.toLowerCase().includes('ear') ||
+                     d.label.toLowerCase().includes('tws') ||
+                     d.label.toLowerCase().includes('aid') ||
+                     d.label.toLowerCase().includes('bone') ||
                      (d.label !== "" && !d.label.toLowerCase().includes('speaker')))
                 );
 
@@ -183,56 +201,58 @@
 
                 if (hasHeadphones) {
                     stat.classList.add('hp-connected');
-                    text.innerText = "HEADPHONE AKTIF";
+                    text.innerText = "AKSESORI AUDIO TERDETEKSI";
                     btn.style.opacity = "1";
                     btn.style.pointerEvents = "auto";
                     icon.style.stroke = "var(--accent)";
-                    icon.style.filter = "drop-shadow(0 0 10px var(--accent))";
+                    icon.style.filter = "drop-shadow(0 0 15px var(--accent))";
                     
-                    // Auto-forward halus
                     if(!document.getElementById('screen-audio').classList.contains('hide')) {
-                        setTimeout(() => navigasi('screen-audio', 'app-timer-screen'), 1500);
+                        setTimeout(() => navigasi('screen-audio', 'app-timer-screen'), 1800);
                     }
                 } else {
                     stat.classList.remove('hp-connected');
-                    text.innerText = "MENUNGGU EARPHONE...";
+                    text.innerText = "HUBUNGKAN PERANGKAT AUDIO...";
                     btn.style.opacity = "0.3";
                     btn.style.pointerEvents = "none";
                 }
             } catch (e) { console.log(e); }
         }
 
-        // Jalankan polling deteksi
         setInterval(checkAudioHardware, 1500);
 
         function startAudioMissions() {
-            // Minta izin mikrofon HANYA untuk membuka akses label nama perangkat audio
             navigator.mediaDevices.getUserMedia({ audio: true })
                 .then(stream => {
-                    stream.getTracks().forEach(track => track.stop()); // Matikan mic lagi
+                    stream.getTracks().forEach(track => track.stop());
                     checkAudioHardware();
                     navigasi('screen-welcome', 'screen-audio');
                 })
                 .catch(() => {
-                    // Jika user menolak izin, tetap lanjut tapi deteksi label mungkin gagal
                     checkAudioHardware();
                     navigasi('screen-welcome', 'screen-audio');
                 });
         }
-        // --- END DETEKSI ---
 
         function navigasi(idKeluar, idMasuk) {
             document.getElementById(idKeluar).classList.add('hide');
             setTimeout(() => {
                 document.getElementById(idMasuk).classList.remove('hide');
                 if(idMasuk === 'app-timer-screen') updateStats();
-                if(idMasuk === 'screen-welcome') selesai(); 
             }, 300);
+        }
+
+        function kembaliKeMenu() {
+            audioPlayer.pause();
+            navigasi('app-timer-screen', 'screen-welcome');
+            selesai();
         }
 
         function toggle() {
             if(!jalan) {
                 jalan = true;
+                audioPlayer.src = playlist[currentTheme];
+                audioPlayer.play();
                 document.getElementById('m-btn').innerText = "PAUSE";
                 document.getElementById('t-circle').classList.add('active');
                 document.getElementById('f-btn').style.display = "inline-block";
@@ -240,15 +260,16 @@
                     detik++;
                     if(detik % 2 === 0) exp += 5;
                     if (detik.toString().includes('9')) {
-                        let bonus = Math.floor(Math.random() * (5 - 3 + 1)) + 3;
-                        exp += bonus;
+                        exp += Math.floor(Math.random() * 3) + 3;
                         tampilBonus();
                     }
-                    document.getElementById('t-val').innerHTML = detik + '<span style="font-size:1rem; color:var(--accent);">d</span>';
+                    document.getElementById('t-val').innerHTML = detik + '<span style="font-size:1.2rem; color:var(--accent);">d</span>';
                     updateStats();
                 }, 1000);
             } else {
-                jalan = false; clearInterval(timer);
+                jalan = false; 
+                clearInterval(timer);
+                audioPlayer.pause();
                 document.getElementById('m-btn').innerText = "LANJUTKAN";
                 document.getElementById('t-circle').classList.remove('active');
             }
@@ -261,13 +282,11 @@
         }
 
         function selesai() {
-            const tgl = new Date().toDateString();
-            const lama = parseInt(localStorage.getItem('hari_' + tgl) || 0);
-            localStorage.setItem('hari_' + tgl, lama + detik);
             localStorage.setItem('ocean_exp_v62', exp);
             jalan = false; clearInterval(timer);
+            audioPlayer.pause();
             detik = 0;
-            document.getElementById('t-val').innerHTML = '0<span style="font-size:1rem; color:var(--accent);">d</span>';
+            document.getElementById('t-val').innerHTML = '0<span style="font-size:1.2rem; color:var(--accent);">d</span>';
             document.getElementById('m-btn').innerText = "MULAI FOKUS";
             document.getElementById('f-btn').style.display = "none";
             document.getElementById('t-circle').classList.remove('active');
@@ -287,13 +306,12 @@
         }
 
         function updateStats() {
-            const tgl = new Date().toDateString();
-            document.getElementById('d-total').innerText = (localStorage.getItem('hari_' + tgl) || 0) + "d";
             document.getElementById('e-total').innerText = exp;
             updateRank();
         }
 
         function pilihTema(m) {
+            currentTheme = m;
             document.body.className = `mood-${m}`;
             document.querySelectorAll('.theme-box').forEach(b => b.classList.remove('selected'));
             document.getElementById('t-'+m).classList.add('selected');
