@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nerdix Sentinel | v4.0.7</title>
+    <title>Nerdix Sentinel | v6.2.0 Lucky 9</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=download" />
     
     <style>
         :root {
-            --bg: #090B0E;
+            --bg: #020406;
             --card-bg: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.08);
             --text-main: #EEF0F2;
@@ -19,290 +18,267 @@
             --glow: rgba(46, 231, 183, 0.15);
         }
 
-        body.mood-study { --accent: #2EE7B7; --glow: rgba(46, 231, 183, 0.15); }
-        body.mood-read { --accent: #FBBF24; --glow: rgba(251, 191, 36, 0.15); }
-        body.mood-work { --accent: #38BDF8; --glow: rgba(56, 189, 248, 0.15); }
-        body.mood-create { --accent: #C084FC; --glow: rgba(192, 132, 252, 0.15); }
+        body.mood-ujian { --accent: #FF4D4D; --glow: rgba(255, 77, 77, 0.15); }
+        body.mood-belajar { --accent: #2EE7B7; --glow: rgba(46, 231, 183, 0.15); }
+        body.mood-tugas { --accent: #38BDF8; --glow: rgba(56, 189, 248, 0.15); }
+        body.mood-baca { --accent: #FBBF24; --glow: rgba(251, 191, 36, 0.15); }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; justify-content: center; background-image: radial-gradient(circle at 50% 10%, var(--glow) 0%, #090b0e 100%); transition: 0.5s ease; }
-
-        #welcome-screen { 
-            position: fixed; inset: 0; background: var(--bg); z-index: 5000; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        #welcome-screen.hide { opacity: 0; pointer-events: none; transform: scale(1.1); }
-
-        .orbit-container {
-            position: relative;
-            width: 300px; height: 300px;
-            display: flex; align-items: center; justify-content: center;
-            margin: 30px 0;
-        }
-
-        .center-axis {
-            z-index: 10;
-            filter: drop-shadow(0 0 15px var(--accent));
-            animation: spin-hourglass 4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-        }
-
-        @keyframes spin-hourglass { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .mode-card {
-            position: absolute; width: 95px; height: 95px;
-            background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            backdrop-filter: blur(8px);
-            color: var(--text-muted);
-        }
-
-        /* SVG Icon Styling */
-        .mode-card svg { width: 32px; height: 32px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 8px; transition: 0.3s; }
-
-        .card-1 { transform: translate(0, -115px); }
-        .card-2 { transform: translate(115px, 0); }
-        .card-3 { transform: translate(0, 115px); }
-        .card-4 { transform: translate(-115px, 0); }
-
-        .mode-card.selected { border-color: var(--accent); background: rgba(255,255,255,0.12); box-shadow: 0 0 25px var(--glow); color: var(--accent); }
-        .mode-card.selected.card-1 { transform: translate(0, -115px) scale(1.1); }
-        .mode-card.selected.card-2 { transform: translate(115px, 0) scale(1.1); }
-        .mode-card.selected.card-3 { transform: translate(0, 115px) scale(1.1); }
-        .mode-card.selected.card-4 { transform: translate(-115px, 0) scale(1.1); }
-
-        .app-shell { width: 100%; max-width: 360px; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; }
-        .timer-panel { width: 100%; background: var(--card-bg); border: 1px solid var(--border); border-radius: 40px; padding: 30px 10px; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(20px); }
-        .digit { font-family: 'JetBrains Mono', monospace; font-size: 2.8rem; text-shadow: 0 0 15px var(--glow); }
         
-        .preset-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; margin-top: 25px; }
-        .btn-preset { 
-            background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; 
-            padding: 12px 5px; color: var(--text-main); font-size: 0.65rem; font-family: 'JetBrains Mono';
-            cursor: pointer; transition: 0.2s;
+        body { 
+            background: var(--bg); 
+            color: var(--text-main); 
+            height: 100vh; 
+            overflow: hidden; 
+            display: flex; 
+            justify-content: center; 
+            background-image: radial-gradient(circle at 50% 10%, var(--glow) 0%, #020406 100%); 
+            transition: background 0.8s ease; 
         }
 
-        .btn-main { padding: 20px 25px; border-radius: 100px; border: none; background: var(--accent); color: #000; font-weight: 800; cursor: pointer; box-shadow: 0 10px 30px var(--glow); transition: 0.3s; flex: 2; font-size: 0.75rem; letter-spacing: 0.5px; }
+        .screen { 
+            position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            background: var(--bg); background-image: radial-gradient(circle at 50% 10%, var(--glow) 0%, #020406 100%);
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 1; visibility: visible; z-index: 100;
+        }
 
-        #finish-notice { position: fixed; inset: 0; background: var(--bg); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; text-align: center; }
-        .welcome-actions { display: flex; gap: 10px; width: 300px; margin-top: 10px; align-items: center; }
+        .screen.hide { opacity: 0; visibility: hidden; transform: scale(0.98); pointer-events: none; }
+
+        .theme-grid { width: 100%; max-width: 340px; display: grid; grid-template-columns: 1fr; gap: 10px; margin: 25px 0; }
+        .theme-box { background: var(--card-bg); border: 1px solid var(--border); padding: 15px; border-radius: 18px; display: flex; align-items: center; gap: 15px; cursor: pointer; transition: 0.3s; }
+        .theme-box.selected { border-color: var(--accent); background: rgba(255,255,255,0.08); box-shadow: 0 0 15px var(--glow); }
+        .theme-box svg { width: 22px; height: 22px; stroke: var(--text-muted); stroke-width: 2; fill: none; }
+        .theme-box.selected svg { stroke: var(--accent); }
         
-        #install-btn { 
-            display:none; background:rgba(255,255,255,0.05); border:1px solid var(--border); 
-            color:var(--text-main); padding:20px; border-radius:100px; font-weight:800; 
-            cursor:pointer; flex: 1; align-items: center; justify-content: center; transition: 0.3s; 
-        }
+        .theme-info h4 { font-size: 0.85rem; font-weight: 800; margin-bottom: 2px; }
+        .theme-info p { font-size: 0.6rem; color: var(--text-muted); }
+
+        .app-shell { width: 100%; max-width: 380px; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; }
+        .btn-batal { background: #FFFFFF; color: #000; border: none; font-size: 0.6rem; padding: 8px 18px; border-radius: 50px; cursor: pointer; font-weight: 800; }
+
+        .stats-row { width: 100%; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 25px; }
+        .stats-col { background: var(--card-bg); padding: 12px 5px; border-radius: 18px; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; }
+        .stats-label { font-size: 0.45rem; color: var(--text-muted); font-weight: 800; }
+        .stats-value { font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--accent); }
+        
+        .rank-card { width: 100%; background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 20px; border-radius: 25px; margin-bottom: 30px; }
+        .rank-main { font-weight: 800; font-size: 0.95rem; color: var(--accent); letter-spacing: 2px; }
+        .exp-track { width: 100%; height: 4px; background: rgba(255,255,255,0.04); border-radius: 10px; margin-top: 10px; overflow: hidden; }
+        .exp-fill { height: 100%; background: var(--accent); width: 0%; transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+
+        .timer-circle { width: 140px; height: 140px; border-radius: 50%; border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; background: var(--card-bg); transition: 0.5s; position: relative; }
+        .timer-circle.active { border-color: var(--accent); box-shadow: 0 0 30px var(--glow); scale: 1.1; }
+
+        .btn-mulai { padding: 12px 35px; border-radius: 100px; border: none; background: var(--accent); color: #000; font-weight: 800; cursor: pointer; box-shadow: 0 8px 20px var(--glow); margin-top: 30px; font-size: 0.7rem; transition: 0.3s; }
+        .btn-selesai { margin-top: 20px; background: none; border: none; color: var(--text-muted); font-weight: 800; font-size: 0.6rem; cursor: pointer; border-bottom: 1px solid var(--border); }
+
+        #bonus-pop { position: absolute; top: -30px; color: var(--accent); font-weight: 800; font-size: 0.7rem; opacity: 0; transition: 0.3s; pointer-events: none; }
+        #bonus-pop.show { opacity: 1; transform: translateY(-10px); }
     </style>
 </head>
-<body class="mood-work">
+<body class="mood-belajar">
 
-    <div id="welcome-screen">
-        <div style="text-align: center; margin-bottom: 10px;">
-            <h1 style="font-weight: 800; letter-spacing: -1.5px; font-size: 1.8rem;">Nerdix Sentinel</h1>
-            <p style="font-size: 0.6rem; letter-spacing: 2px; color: var(--text-muted); font-weight: 700;">PILIH MODE FOKUS</p>
-        </div>
-        
-        <div class="orbit-container">
-            <div class="center-axis">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <div id="screen-welcome" class="screen">
+        <h1 style="font-weight: 800; font-size: 1.6rem;">Nerdix Sentinel</h1>
+        <p style="font-size: 0.55rem; color: var(--text-muted); letter-spacing: 1px; margin-top: 8px; font-weight: 600;">PILIH MODE KAMU YANG DI PRIORITASKAN</p>
+        <div class="theme-grid">
+            <div class="theme-box" id="t-ujian" onclick="pilihTema('ujian')">
+                <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <div class="theme-info"><h4>UJIAN</h4><p>Fokus mutlak tanpa suara latar belakang.</p></div>
             </div>
-
-            <div class="mode-card card-1" id="card-work" onclick="selectInitialMode('work')">
-                <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                <span style="font-size:0.55rem; font-weight:800;">KERJA</span>
-            </div>
-
-            <div class="mode-card card-2" id="card-study" onclick="selectInitialMode('study')">
+            <div class="theme-box" id="t-belajar" onclick="pilihTema('belajar')">
                 <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                <span style="font-size:0.55rem; font-weight:800;">BELAJAR</span>
+                <div class="theme-info"><h4>BELAJAR</h4><p>Ditemani audio Lofi untuk pemahaman mendalam.</p></div>
             </div>
-
-            <div class="mode-card card-3" id="card-create" onclick="selectInitialMode('create')">
-                <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                <span style="font-size:0.55rem; font-weight:800;">KARYA</span>
+            <div class="theme-box" id="t-tugas" onclick="pilihTema('tugas')">
+                <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                <div class="theme-info"><h4>TUGAS</h4><p>Meningkatkan produktivitas pengerjaan tugas.</p></div>
             </div>
-
-            <div class="mode-card card-4" id="card-read" onclick="selectInitialMode('read')">
+            <div class="theme-box" id="t-baca" onclick="pilihTema('baca')">
                 <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                <span style="font-size:0.55rem; font-weight:800;">BACA</span>
+                <div class="theme-info"><h4>BACA</h4><p>Ruang tenang untuk menyerap informasi buku.</p></div>
             </div>
         </div>
-
-        <div class="welcome-actions">
-            <button class="btn-main" id="welcome-go" style="opacity: 0.1; pointer-events: none;" onclick="enterApp()">MULAI SEKARANG</button>
-            <button id="install-btn">
-                <span class="material-symbols-outlined" style="font-size: 22px; color: var(--accent);">download</span>
-            </button>
-        </div>
+        <button class="btn-mulai" id="gas-btn" style="opacity:0.2; pointer-events:none;" onclick="mulaiMisi()">MULAI MISI</button>
     </div>
 
-    <div class="app-shell">
-        <header style="width:100%; display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
-            <button onclick="exitApp()" style="background:var(--card-bg); border:1px solid var(--border); color:var(--text-muted); font-size:0.55rem; padding:8px 15px; border-radius:50px; cursor:pointer; font-weight:800;">GANTI MODE</button>
-            <div id="status-label" style="font-size:0.55rem; opacity:0.7; font-weight:800; letter-spacing:1px;">SIAP</div>
-        </header>
-
-        <div class="intent-section" style="width:100%; background:var(--card-bg); border-left:3px solid var(--accent); padding:18px; border-radius:18px; margin-bottom:25px;">
-            <div id="task-stack"></div>
-            <input type="text" id="session-intent" style="background:transparent; border:none; color:var(--text-main); width:100%; font-size:0.85rem; font-weight:600; outline:none;" placeholder="Lagi mau ngerjain apa?">
-        </div>
-
-        <div class="timer-panel">
-            <div class="unit-box" style="text-align:center">
-                <button class="adjust-btn" onclick="adj('h',1)" style="background:none; border:none; color:var(--accent); font-size:1.2rem; cursor:pointer">+</button>
-                <div class="digit" id="h-val">00</div>
-                <button class="adjust-btn" onclick="adj('h',-1)" style="background:none; border:none; color:var(--accent); font-size:1.2rem; cursor:pointer">−</button>
-            </div>
-            <div style="font-size: 1.5rem; opacity: 0.2; margin: 15px 10px 0;">:</div>
-            <div class="unit-box" style="text-align:center">
-                <button class="adjust-btn" onclick="adj('m',1)" style="background:none; border:none; color:var(--accent); font-size:1.2rem; cursor:pointer">+</button>
-                <div class="digit" id="m-val">00</div>
-                <button class="adjust-btn" onclick="adj('m',-1)" style="background:none; border:none; color:var(--accent); font-size:1.2rem; cursor:pointer">−</button>
-            </div>
-            <div style="font-size: 1.5rem; opacity: 0.2; margin: 15px 10px 0;">:</div>
-            <div class="unit-box" style="text-align:center">
-                <button class="adjust-btn" onclick="adj('s',1)" style="background:none; border:none; color:var(--accent); font-size:1.2rem; cursor:pointer">+</button>
-                <div class="digit" id="s-val">00</div>
-                <button class="adjust-btn" onclick="adj('s',-1)" style="background:none; border:none; color:var(--accent); font-size:1.2rem; cursor:pointer">−</button>
-            </div>
-        </div>
-
-        <div class="preset-grid" id="preset-grid"></div>
-
-        <button class="btn-main" id="action-btn" onclick="handleAction()" style="margin-top:40px; width:100%; flex:none;">MULAI FOKUS</button>
-        <div id="cancel-zone" style="display:none; margin-top:20px;"><button onclick="cancelSession()" style="background:none; border:none; color:var(--text-muted); font-size:0.65rem; cursor:pointer; text-decoration:underline;">Batalkan Waktu</button></div>
+    <div id="screen-audio" class="screen hide">
+        <svg id="icon-audio" style="width:70px; height:70px; margin-bottom:20px; transition: 0.5s;" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.8">
+            <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+            <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+        </svg>
+        <h2 id="audio-status" style="font-size: 1.1rem; margin-bottom: 8px; letter-spacing: 1px;">MENUNGGU HEADPHONE</h2>
+        <p id="audio-msg" style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 25px; text-align: center; padding: 0 30px; line-height: 1.5;">Gunakan headphone agar Sentinel bisa melindungimu dari gangguan sekitar.</p>
+        <button id="btn-audio-next" class="btn-mulai" style="width: 180px; opacity: 0.3;" onclick="navigasi('screen-audio', 'app-timer-screen')">SAYA SIAP</button>
+        <button onclick="navigasi('screen-audio', 'screen-welcome')" style="background:none; border:none; color:var(--text-muted); font-size:0.55rem; margin-top:20px; cursor:pointer; font-weight:800;">KEMBALI</button>
     </div>
 
-    <div id="finish-notice">
-        <div style="font-size: 70px;">🎉</div>
-        <h2 style="font-weight: 800; margin-top: 20px;">WAKTU HABIS!</h2>
-        <p id="last-task-display" style="color: var(--accent); margin: 20px 0; font-weight: 700; font-size:1.1rem;"></p>
-        <button class="btn-main" onclick="stayInTheme()" style="width:200px; flex:none;">OKE, SIAP</button>
+    <div id="app-timer-screen" class="screen hide">
+        <div class="app-shell">
+            <header style="width:100%; display:flex; justify-content:space-between; margin-bottom:25px; align-items:center;">
+                <button class="btn-batal" onclick="navigasi('app-timer-screen', 'screen-welcome')">BATAL</button>
+                <span id="st-label" style="font-size:0.5rem; font-weight:800; color:var(--text-muted); letter-spacing:1px;">SIAP</span>
+            </header>
+            <div class="stats-row">
+                <div class="stats-col"><p class="stats-label">HARI INI</p><p class="stats-value" id="d-total">0d</p></div>
+                <div class="stats-col" style="border-color: var(--accent);"><p class="stats-label">RANK</p><p class="stats-value" id="header-rank">SHELL</p></div>
+                <div class="stats-col"><p class="stats-label">EXP</p><p class="stats-value" id="e-total">0</p></div>
+            </div>
+            <div class="rank-card">
+                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                    <div><p style="font-size:0.45rem; color:var(--text-muted); margin-bottom:2px;">RANK KAMU</p><span class="rank-main" id="r-name">SHELL</span></div>
+                    <span style="font-size:0.55rem; color:var(--text-muted); font-family:'JetBrains Mono';" id="r-progress">0/100</span>
+                </div>
+                <div class="exp-track"><div class="exp-fill" id="r-bar"></div></div>
+            </div>
+            <div class="timer-circle" id="t-circle">
+                <span id="bonus-pop">LUCKY 9!</span>
+                <div style="font-family:'JetBrains Mono'; font-size:2.8rem;" id="t-val">0<span style="font-size:1rem; color:var(--accent);">d</span></div>
+            </div>
+            <button class="btn-mulai" id="m-btn" onclick="toggle()">MULAI FOKUS</button>
+            <button class="btn-selesai" id="f-btn" style="display:none;" onclick="selesai()">Selesaikan Sesi</button>
+        </div>
     </div>
-
-    <audio id="local-audio-player" loop></audio>
-    <div style="position:absolute; top:-999px"><div id="lofi-player"></div><div id="reward-player"></div></div>
 
     <script>
-        // --- KONFIGURASI SUMBER ---
-        // Ganti 'id' dengan nama file MP3 kamu (contoh: "musik/belajar.mp3")
-        const focusModes = {
-            work: { type: 'yt', id: "lkkGlVWvkLk", hints: ["Beresin email...", "Tulis laporan..."], presets: ["00:25:00", "00:45:00", "01:00:00"] },
-            study: { type: 'mp3', id: "belajar.mp3", hints: ["Baca materi...", "Latihan soal..."], presets: ["00:30:00", "00:45:00", "01:00:00"] },
-            read: { type: 'mp3', id: "baca.mp3", hints: ["Baca buku...", "Cek berita..."], presets: ["00:15:00", "00:30:00", "00:45:00"] },
-            create: { type: 'yt', id: "dUqdlL_k6x8", hints: ["Gambar sketsa...", "Edit video..."], presets: ["01:00:00", "02:00:00", "03:00:00"] }
-        };
+        let detik = 0, jalan = false, timer;
+        let exp = parseInt(localStorage.getItem('ocean_exp_v62') || 0);
 
-        let h=0, m=25, s=25, totalSec=25*65, isRunning=false, isPaused=false, currentMode="work", timerInterval, lofiPlayer, rewardPlayer;
-        const localAudio = document.getElementById('local-audio-player');
+        const ranks = [
+            { n: "SHELL", cap: 100 }, { n: "SHELL", cap: 500 },
+            { n: "CORAL", cap: 2000 }, { n: "PEARL", cap: 10000 },
+            { n: "ABYSS", cap: 100000 }
+        ];
 
-        function adj(u, d) {
-            if(isRunning) return;
-            if(u==='h') { h+=d; if(h<0) h=23; if(h>23) h=0; }
-            if(u==='m') { m+=d; if(m<0) m=59; if(m>59) m=0; }
-            if(u==='s') { s+=d; if(s<0) s=59; if(s>59) s=0; }
-            updateDisplay();
+        // FITUR DETEKSI HEADPHONE
+        async function cekHeadphone() {
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const isHeadset = devices.some(d => d.kind === 'audiooutput' && 
+                    (d.label.toLowerCase().includes('head') || d.label.toLowerCase().includes('blue')));
+                
+                const btn = document.getElementById('btn-audio-next');
+                const status = document.getElementById('audio-status');
+                const msg = document.getElementById('audio-msg');
+                const icon = document.getElementById('icon-audio');
+
+                if(isHeadset) {
+                    status.innerText = "HEADPHONE TERHUBUNG";
+                    status.style.color = "var(--accent)";
+                    msg.innerText = "Sempurna. Sentinel siap menemanimu sekarang.";
+                    btn.style.opacity = "1";
+                    btn.style.pointerEvents = "auto";
+                    icon.style.stroke = "var(--accent)";
+                    icon.style.filter = "drop-shadow(0 0 10px var(--accent))";
+                    
+                    // Auto-masuk secara halus
+                    setTimeout(() => {
+                        if(!document.getElementById('screen-audio').classList.contains('hide')) {
+                            navigasi('screen-audio', 'app-timer-screen');
+                        }
+                    }, 2000);
+                } else {
+                    status.innerText = "MENUNGGU HEADPHONE";
+                    status.style.color = "var(--text-muted)";
+                    btn.style.opacity = "0.3";
+                    btn.style.pointerEvents = "none";
+                }
+            } catch(e) {}
         }
 
-        function updateDisplay() {
-            document.getElementById('h-val').innerText = h.toString().padStart(2, '0');
-            document.getElementById('m-val').innerText = m.toString().padStart(2, '0');
-            document.getElementById('s-val').innerText = s.toString().padStart(2, '0');
+        function mulaiMisi() {
+            // Minta izin audio agar label device bisa terbaca (keamanan browser)
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(s => { 
+                    s.getTracks().forEach(t => t.stop()); 
+                    navigasi('screen-welcome', 'screen-audio');
+                    setInterval(cekHeadphone, 2000);
+                })
+                .catch(() => navigasi('screen-welcome', 'screen-audio'));
         }
 
-        function selectInitialMode(mode) {
-            currentMode = mode; document.body.className = `mood-${mode}`;
-            document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
-            document.getElementById(`card-${mode}`).classList.add('selected');
-            document.getElementById('welcome-go').style.opacity = "1";
-            document.getElementById('welcome-go').style.pointerEvents = "auto";
-            
-            const grid = document.getElementById('preset-grid'); grid.innerHTML = "";
-            focusModes[mode].presets.forEach(p => {
-                const btn = document.createElement('button'); btn.className = 'btn-preset';
-                btn.innerText = p; btn.onclick = () => { if(!isRunning) { const t=p.split(':'); h=parseInt(t[0]); m=parseInt(t[1]); s=parseInt(t[2]); updateDisplay(); }};
-                grid.appendChild(btn);
-            });
+        function navigasi(idKeluar, idMasuk) {
+            document.getElementById(idKeluar).classList.add('hide');
+            setTimeout(() => {
+                document.getElementById(idMasuk).classList.remove('hide');
+                if(idMasuk === 'app-timer-screen') updateStats();
+                if(idMasuk === 'screen-welcome') selesai(); 
+            }, 300);
         }
 
-        function handleAction() {
-            if(!isRunning) {
-                const input = document.getElementById('session-intent');
-                if(!input.value.trim() || (h+m+s === 0)) return;
-                totalSec = (h*3600)+(m*60)+s; startTimer();
-            } else { if(!isPaused) pauseTimer(); else resumeTimer(); }
-        }
-
-        function startTimer() {
-            isRunning = true; isPaused = false;
-            document.getElementById('action-btn').innerText = "JEDA SEBENTAR";
-            document.getElementById('status-label').innerText = "LAGI FOKUS...";
-            document.getElementById('cancel-zone').style.display = 'block';
-            document.querySelectorAll('.adjust-btn').forEach(b => b.style.visibility = 'hidden');
-            
-            playAudio();
-            runCountdown();
-        }
-
-        function playAudio() {
-            const mode = focusModes[currentMode];
-            if(mode.type === 'yt' && lofiPlayer) {
-                lofiPlayer.loadVideoById(mode.id);
-                lofiPlayer.playVideo();
-            } else if(mode.type === 'mp3') {
-                localAudio.src = mode.id;
-                localAudio.play().catch(e => console.log("Audio play failed: ", e));
+        function toggle() {
+            if(!jalan) {
+                jalan = true;
+                document.getElementById('m-btn').innerText = "PAUSE";
+                document.getElementById('t-circle').classList.add('active');
+                document.getElementById('f-btn').style.display = "inline-block";
+                timer = setInterval(() => {
+                    detik++;
+                    if(detik % 2 === 0) exp += 5;
+                    if (detik.toString().includes('9')) {
+                        let bonus = Math.floor(Math.random() * (5 - 3 + 1)) + 3;
+                        exp += bonus;
+                        tampilBonus();
+                    }
+                    document.getElementById('t-val').innerHTML = detik + '<span style="font-size:1rem; color:var(--accent);">d</span>';
+                    updateStats();
+                }, 1000);
+            } else {
+                jalan = false; clearInterval(timer);
+                document.getElementById('m-btn').innerText = "LANJUTKAN";
+                document.getElementById('t-circle').classList.remove('active');
             }
         }
 
-        function stopAudio() {
-            if(lofiPlayer) lofiPlayer.stopVideo();
-            localAudio.pause();
-            localAudio.currentTime = 0;
+        function tampilBonus() {
+            const pop = document.getElementById('bonus-pop');
+            pop.classList.add('show');
+            setTimeout(() => pop.classList.remove('show'), 800);
         }
 
-        function pauseTimer() { 
-            isPaused = true; 
-            clearInterval(timerInterval); 
-            document.getElementById('action-btn').innerText = "LANJUTKAN"; 
-            if(focusModes[currentMode].type === 'yt') lofiPlayer.pauseVideo(); else localAudio.pause();
+        function selesai() {
+            const tgl = new Date().toDateString();
+            const lama = parseInt(localStorage.getItem('hari_' + tgl) || 0);
+            localStorage.setItem('hari_' + tgl, lama + detik);
+            localStorage.setItem('ocean_exp_v62', exp);
+            jalan = false; clearInterval(timer);
+            detik = 0;
+            document.getElementById('t-val').innerHTML = '0<span style="font-size:1rem; color:var(--accent);">d</span>';
+            document.getElementById('m-btn').innerText = "MULAI FOKUS";
+            document.getElementById('f-btn').style.display = "none";
+            document.getElementById('t-circle').classList.remove('active');
+            updateStats();
         }
 
-        function resumeTimer() { 
-            isPaused = false; 
-            document.getElementById('action-btn').innerText = "JEDA SEBENTAR"; 
-            if(focusModes[currentMode].type === 'yt') lofiPlayer.playVideo(); else localAudio.play();
-            runCountdown(); 
+        function updateRank() {
+            let r = 0;
+            while(r < ranks.length - 1 && exp >= ranks[r].cap) r++;
+            const cur = ranks[r];
+            const prevCap = r === 0 ? 0 : ranks[r-1].cap;
+            const percent = ((exp - prevCap) / (cur.cap - prevCap)) * 100;
+            document.getElementById('header-rank').innerText = cur.n;
+            document.getElementById('r-name').innerText = cur.n;
+            document.getElementById('r-progress').innerText = `${exp}/${cur.cap}`;
+            document.getElementById('r-bar').style.width = Math.min(percent, 100) + "%";
         }
 
-        function runCountdown() { timerInterval = setInterval(() => { if(totalSec > 0) { totalSec--; h = Math.floor(totalSec/3600); m = Math.floor((totalSec%3600)/60); s = totalSec%60; updateDisplay(); } else { finishSession(); } }, 1000); }
-
-        function resetUI() {
-            isRunning = false; h=0; m=0; s=0; updateDisplay();
-            document.getElementById('action-btn').innerText = "MULAI FOKUS"; 
-            document.getElementById('cancel-zone').style.display = 'none'; 
-            document.querySelectorAll('.adjust-btn').forEach(b => b.style.visibility = 'visible');
-            stopAudio();
+        function updateStats() {
+            const tgl = new Date().toDateString();
+            document.getElementById('d-total').innerText = (localStorage.getItem('hari_' + tgl) || 0) + "d";
+            document.getElementById('e-total').innerText = exp;
+            updateRank();
         }
 
-        function cancelSession() { clearInterval(timerInterval); resetUI(); }
-        function finishSession() {
-            clearInterval(timerInterval); 
-            document.getElementById('finish-notice').style.display = 'flex';
-            resetUI(); if(rewardPlayer) rewardPlayer.playVideo();
+        function pilihTema(m) {
+            document.body.className = `mood-${m}`;
+            document.querySelectorAll('.theme-box').forEach(b => b.classList.remove('selected'));
+            document.getElementById('t-'+m).classList.add('selected');
+            document.getElementById('gas-btn').style.opacity = "1";
+            document.getElementById('gas-btn').style.pointerEvents = "auto";
         }
 
-        function enterApp() { document.getElementById('welcome-screen').classList.add('hide'); }
-        function exitApp() { document.getElementById('welcome-screen').classList.remove('hide'); stopAudio(); }
-        function stayInTheme() { document.getElementById('finish-notice').style.display = 'none'; if(rewardPlayer) rewardPlayer.stopVideo(); }
-
-        var tag = document.createElement('script'); tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0]; firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        function onYouTubeIframeAPIReady() {
-            lofiPlayer = new YT.Player('lofi-player', { height: '1', width: '1' });
-            rewardPlayer = new YT.Player('reward-player', { height: '1', width: '1', videoId: 'do5EbohsUUk' });
-        }
+        updateStats();
     </script>
 </body>
 </html>
