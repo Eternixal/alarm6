@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nerdix Sentinel | v6.2.0 Lucky 9</title>
+    <title>Nerdix Sentinel | v6.2.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#020406">
@@ -34,48 +34,56 @@
             background: var(--bg); color: var(--text-main); height: 100vh; overflow: hidden; 
             display: flex; justify-content: center; 
             background-image: radial-gradient(circle at 50% 10%, var(--glow) 0%, #020406 100%); 
-            transition: background 0.8s ease; 
+            transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1); 
         }
 
         .screen { 
             position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; 
             background: var(--bg); background-image: radial-gradient(circle at 50% 10%, var(--glow) 0%, #020406 100%);
-            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 1; visibility: visible; z-index: 100;
         }
 
-        .screen.hide { opacity: 0; visibility: hidden; transform: scale(0.98); pointer-events: none; }
+        .screen.hide { opacity: 0; visibility: hidden; transform: translateY(20px); pointer-events: none; }
 
-        .theme-grid { width: 100%; max-width: 340px; display: grid; grid-template-columns: 1fr; gap: 10px; margin: 20px 0; }
-        .theme-box { background: var(--card-bg); border: 1px solid var(--border); padding: 15px; border-radius: 18px; display: flex; align-items: center; gap: 15px; cursor: pointer; transition: 0.3s; }
-        .theme-box.selected { border-color: var(--accent); background: rgba(255,255,255,0.08); box-shadow: 0 0 15px var(--glow); }
-        .theme-box svg { width: 22px; height: 22px; stroke: var(--text-muted); stroke-width: 2; fill: none; }
+        .header-top { position: absolute; top: 30px; width: 85%; display: flex; justify-content: space-between; align-items: center; z-index: 110; }
         
-        .app-shell { width: 100%; max-width: 380px; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; }
-
-        .stats-row { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
-        .stats-col { background: var(--card-bg); padding: 15px 5px; border-radius: 18px; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; }
-        .stats-label { font-size: 0.5rem; color: var(--text-muted); font-weight: 800; }
-        .stats-value { font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--accent); margin-top: 4px; }
-        
-        .timer-circle { width: 220px; height: 220px; border-radius: 50%; border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; background: var(--card-bg); transition: 0.6s; position: relative; }
-        .timer-circle.active { border-color: var(--accent); box-shadow: 0 0 50px var(--glow); transform: scale(1.05); }
-
-        .btn-mulai { padding: 14px 45px; border-radius: 100px; border: none; background: var(--accent); color: #000; font-weight: 800; cursor: pointer; box-shadow: 0 8px 25px var(--glow); margin-top: 35px; font-size: 0.75rem; transition: 0.3s; }
-        
-        /* Tombol Install Khusus */
         #install-btn { 
-            display: none; position: absolute; bottom: 30px; background: rgba(255,255,255,0.1); 
-            border: 1px solid var(--border); color: #fff; padding: 10px 20px; border-radius: 50px; 
-            font-size: 0.6rem; font-weight: 800; cursor: pointer;
+            display: none; background: #fff; color: #000; border: none; 
+            padding: 8px 14px; border-radius: 50px; font-size: 0.6rem; font-weight: 800;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.1); transition: 0.3s;
         }
 
-        .hp-indicator { display: flex; align-items: center; gap: 10px; margin-top: 20px; font-size: 0.6rem; font-weight: 800; color: var(--text-muted); }
-        .hp-dot { width: 8px; height: 8px; background: #333; border-radius: 50%; animation: pulse 1.5s infinite; }
-        .hp-connected { color: var(--accent); }
-        .hp-connected .hp-dot { background: var(--accent); box-shadow: 0 0 12px var(--accent); animation: none; }
+        .theme-grid { width: 90%; max-width: 400px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 30px 0; }
+        
+        .theme-box { 
+            background: var(--card-bg); border: 1px solid var(--border); padding: 25px 10px; 
+            border-radius: 28px; display: flex; flex-direction: column; align-items: center; 
+            gap: 12px; cursor: pointer; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
 
-        @keyframes pulse { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
+        .theme-box:active { transform: scale(0.9); background: rgba(255,255,255,0.07); }
+        .theme-box.selected { border-color: var(--accent); background: rgba(255,255,255,0.1); box-shadow: 0 10px 30px var(--glow); }
+
+        .theme-box svg { width: 42px; height: 42px; stroke: var(--text-muted); stroke-width: 1.5; fill: none; transition: 0.4s ease; }
+        .theme-box.selected svg { stroke: var(--accent); transform: scale(1.1); filter: drop-shadow(0 0 8px var(--accent)); }
+        
+        .theme-info { text-align: center; }
+        .theme-info h4 { font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; color: var(--text-muted); transition: 0.3s; }
+        .theme-info p { font-size: 0.55rem; color: #4A4F55; font-weight: 600; margin-top: 4px; line-height: 1.3; transition: 0.3s; padding: 0 5px; }
+        
+        .theme-box.selected h4 { color: var(--accent); }
+        .theme-box.selected p { color: var(--text-main); opacity: 0.8; }
+
+        .btn-mulai { padding: 18px 55px; border-radius: 100px; border: none; background: var(--accent); color: #000; font-weight: 800; cursor: pointer; box-shadow: 0 10px 30px var(--glow); margin-top: 15px; font-size: 0.85rem; transition: 0.3s; text-transform: uppercase; }
+
+        .timer-circle { width: 250px; height: 250px; border-radius: 50%; border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; background: var(--card-bg); transition: 0.6s; }
+        .timer-circle.active { border-color: var(--accent); box-shadow: 0 0 70px var(--glow); transform: scale(1.05); }
+
+        .hp-indicator { display: flex; align-items: center; gap: 10px; margin-top: 20px; font-size: 0.65rem; font-weight: 800; color: var(--text-muted); }
+        .hp-dot { width: 10px; height: 10px; background: #333; border-radius: 50%; }
+        .hp-connected { color: var(--accent); }
+        .hp-connected .hp-dot { background: var(--accent); box-shadow: 0 0 15px var(--accent); }
     </style>
 </head>
 <body class="mood-belajar">
@@ -83,59 +91,64 @@
     <audio id="bg-audio" loop></audio>
 
     <div id="screen-welcome" class="screen">
-        <h1 style="font-weight: 800; font-size: 1.6rem;">Nerdix Sentinel</h1>
-        <p style="font-size: 0.55rem; color: var(--text-muted); letter-spacing: 1px; margin-top: 8px;">PILIH MODE OPERASI</p>
+        <div class="header-top">
+            <div style="font-weight: 800; font-size: 0.7rem; color: var(--text-muted); letter-spacing: 2px;">VERSI 6.2.0</div>
+            <button id="install-btn" onclick="triggerInstall()">PASANG APLIKASI</button>
+        </div>
+
+        <h1 style="font-weight: 800; font-size: 1.8rem; letter-spacing: -1px; margin-top: 40px;">Nerdix Sentinel</h1>
+        <p style="font-size: 0.6rem; color: var(--text-muted); letter-spacing: 3px; margin-top: 5px; font-weight: 800;">PILIH PROTOKOL ANDA</p>
+
         <div class="theme-grid">
             <div class="theme-box" id="t-ujian" onclick="pilihTema('ujian', 'audio_ujian.mp3')">
-                <div class="theme-info"><h4>UJIAN</h4><p>Fokus mutlak.</p></div>
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                <div class="theme-info"><h4>UJIAN</h4><p>Hancurkan batas kemampuanmu.</p></div>
             </div>
             <div class="theme-box" id="t-belajar" onclick="pilihTema('belajar', 'audio_belajar.mp3')">
-                <div class="theme-info"><h4>BELAJAR</h4><p>Lofi santai.</p></div>
+                <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                <div class="theme-info"><h4>BELAJAR</h4><p>Jadikan ilmu senjata mematikan.</p></div>
             </div>
             <div class="theme-box" id="t-tugas" onclick="pilihTema('tugas', 'audio_tugas.mp3')">
-                <div class="theme-info"><h4>TUGAS</h4><p>Produktif.</p></div>
+                <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                <div class="theme-info"><h4>TUGAS</h4><p>Selesaikan atau terus menyesal.</p></div>
+            </div>
+            <div class="theme-box" id="t-baca" onclick="pilihTema('baca', 'audio_baca.mp3')">
+                <svg viewBox="0 0 24 24"><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><line x1="3" y1="18" x2="3" y2="12"/><line x1="21" y1="18" x2="21" y2="12"/><path d="M3 12c0-3.3 2.7-6 6-6h6c3.3 0 6 2.7 6 6"/></svg>
+                <div class="theme-info"><h4>BACA</h4><p>Serap makna sedalam mungkin.</p></div>
             </div>
         </div>
+
         <button class="btn-mulai" id="gas-btn" style="opacity:0.2; pointer-events:none;" onclick="startAudioMissions()">MULAI MISI</button>
-        
-        <button id="install-btn" onclick="triggerInstall()">INSTALL NERDIX APP</button>
     </div>
 
     <div id="screen-audio" class="screen hide">
-        <svg id="hp-icon" style="width:70px; height:70px; margin-bottom:20px;" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.8">
+        <svg id="hp-icon" style="width:80px; height:80px; margin-bottom:20px; transition: 0.5s;" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5">
             <path d="M3 18v-6a9 9 0 0 1 18 0v6M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
         </svg>
-        <h2 style="font-size: 1.1rem; letter-spacing: 1px;">SYNC AUDIO DEVICE</h2>
+        <h2 style="font-size: 1.2rem; letter-spacing: 2px;">SINKRONISASI ALAT</h2>
         <div class="hp-indicator" id="hp-stat">
             <div class="hp-dot"></div>
-            <span id="hp-text">MENUNGGU TANDA HEADSET</span>
+            <span id="hp-text">PASANG HEADSET ANDA, TOLONG</span>
         </div>
-        <button class="btn-mulai" id="hp-ready-btn" style="opacity: 0.1; pointer-events: none;" onclick="navigasi('screen-audio', 'app-timer-screen')">MASUK</button>
+        <button class="btn-mulai" id="hp-ready-btn" style="opacity: 0.1; pointer-events: none;" onclick="navigasi('screen-audio', 'app-timer-screen')">HUBUNGKAN</button>
     </div>
 
     <div id="app-timer-screen" class="screen hide">
-        <div class="app-shell">
-            <div class="stats-row">
-                <div class="stats-col"><p class="stats-label">RANK</p><p class="stats-value" id="header-rank">SHELL</p></div>
-                <div class="stats-col"><p class="stats-label">TOTAL EXP</p><p class="stats-value" id="e-total">0</p></div>
-            </div>
+        <div class="app-shell" style="text-align: center;">
             <div class="timer-circle" id="t-circle">
-                <div style="font-family:'JetBrains Mono'; font-size:4rem;" id="t-val">0<span style="font-size:1.2rem; color:var(--accent);">s</span></div>
+                <div style="font-family:'JetBrains Mono'; font-size:4.5rem;" id="t-val">0<span style="font-size:1.5rem; color:var(--accent);">d</span></div>
             </div>
-            <button class="btn-mulai" id="m-btn" onclick="toggle()">MULAI FOKUS</button>
-            <button style="margin-top:20px; background:none; border:none; color:var(--text-muted); cursor:pointer;" onclick="selesai()">Selesai</button>
+            <button class="btn-mulai" id="m-btn" onclick="toggle()">AKTIFKAN FOKUS</button>
+            <p style="margin-top:30px; font-size:0.6rem; color:var(--text-muted); cursor:pointer; font-weight: 800; letter-spacing: 1px;" onclick="location.reload()">HENTIKAN SEGALANYA</p>
         </div>
     </div>
 
     <script>
         let detik = 0, jalan = false, timer, deferredPrompt;
-        let exp = parseInt(localStorage.getItem('ocean_exp_v62') || 0);
         const audioPlayer = document.getElementById('bg-audio');
 
-        // LOGIKA TOMBOL INSTALL
         window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
+            e.preventDefault(); deferredPrompt = e;
             document.getElementById('install-btn').style.display = 'block';
         });
 
@@ -143,44 +156,24 @@
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    document.getElementById('install-btn').style.display = 'none';
-                }
+                if (outcome === 'accepted') document.getElementById('install-btn').style.display = 'none';
                 deferredPrompt = null;
             }
         }
 
-        // SERVICE WORKER
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js');
-            });
-        }
-
-        // HEADSET CHECK
-        async function checkAudioHardware() {
+        async function checkHeadset() {
             const devices = await navigator.mediaDevices.enumerateDevices();
-            const hasHeadphones = devices.some(d => 
-                d.kind === 'audiooutput' && 
-                (d.label.toLowerCase().includes('head') || d.label.toLowerCase().includes('blue') || d.label.toLowerCase().includes('ear') ||
-                (d.label !== "" && !d.label.toLowerCase().includes('speaker')))
-            );
-
-            const btn = document.getElementById('hp-ready-btn');
-            const stat = document.getElementById('hp-stat');
-            const text = document.getElementById('hp-text');
-
-            if (hasHeadphones) {
-                stat.classList.add('hp-connected');
-                text.innerText = "TANDA HEADSET AKTIF";
-                btn.style.opacity = "1"; btn.style.pointerEvents = "auto";
+            const isHeadset = devices.some(d => d.kind === 'audiooutput' && (d.label.toLowerCase().includes('head') || d.label.toLowerCase().includes('blue') || d.label.toLowerCase().includes('ear') || (d.label !== "" && !d.label.toLowerCase().includes('speaker'))));
+            const btn = document.getElementById('hp-ready-btn'), stat = document.getElementById('hp-stat'), icon = document.getElementById('hp-icon');
+            if (isHeadset) {
+                stat.classList.add('hp-connected'); document.getElementById('hp-text').innerText = "SISTEM TERHUBUNG";
+                btn.style.opacity = "1"; btn.style.pointerEvents = "auto"; icon.style.stroke = "var(--accent)";
             } else {
-                stat.classList.remove('hp-connected');
-                text.innerText = "MENUNGGU TANDA HEADSET";
-                btn.style.opacity = "0.1"; btn.style.pointerEvents = "none";
+                stat.classList.remove('hp-connected'); document.getElementById('hp-text').innerText = "PASANG HEADSET ANDA, TOLONG";
+                btn.style.opacity = "0.1"; btn.style.pointerEvents = "none"; icon.style.stroke = "var(--text-muted)";
             }
         }
-        setInterval(checkAudioHardware, 1000);
+        setInterval(checkHeadset, 1000);
 
         function startAudioMissions() {
             navigator.mediaDevices.getUserMedia({ audio: true }).then(s => {
@@ -189,37 +182,32 @@
             }).catch(() => navigasi('screen-welcome', 'screen-audio'));
         }
 
-        function navigasi(out, inId) {
-            document.getElementById(out).classList.add('hide');
-            setTimeout(() => document.getElementById(inId).classList.remove('hide'), 300);
+        function navigasi(outId, inId) {
+            document.getElementById(outId).classList.add('hide');
+            setTimeout(() => document.getElementById(inId).classList.remove('hide'), 400);
         }
 
         function toggle() {
             if(!jalan) {
                 jalan = true; audioPlayer.play();
-                document.getElementById('m-btn').innerText = "PAUSE";
+                document.getElementById('m-btn').innerText = "ISTIRAHAT SEJENAK";
                 document.getElementById('t-circle').classList.add('active');
                 timer = setInterval(() => {
-                    detik++; exp += 2;
-                    document.getElementById('t-val').innerHTML = detik + '<span style="font-size:1.2rem; color:var(--accent);">s</span>';
-                    document.getElementById('e-total').innerText = exp;
+                    detik++;
+                    document.getElementById('t-val').innerHTML = detik + '<span style="font-size:1.5rem; color:var(--accent);">d</span>';
                 }, 1000);
             } else {
                 jalan = false; audioPlayer.pause(); clearInterval(timer);
-                document.getElementById('m-btn').innerText = "LANJUTKAN";
+                document.getElementById('m-btn').innerText = "LANJUTKAN BERJUANG";
                 document.getElementById('t-circle').classList.remove('active');
             }
-        }
-
-        function selesai() {
-            jalan = false; clearInterval(timer); audioPlayer.pause();
-            localStorage.setItem('ocean_exp_v62', exp);
-            location.reload();
         }
 
         function pilihTema(m, file) {
             document.body.className = `mood-${m}`;
             audioPlayer.src = file;
+            document.querySelectorAll('.theme-box').forEach(b => b.classList.remove('selected'));
+            document.getElementById('t-'+m).classList.add('selected');
             document.getElementById('gas-btn').style.opacity = "1";
             document.getElementById('gas-btn').style.pointerEvents = "auto";
         }
